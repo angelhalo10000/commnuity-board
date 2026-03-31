@@ -67,7 +67,7 @@
 - 下書き保存
 
 #### 回覧板管理
-- 回覧板作成（タイトル・PDF/画像アップロード・配信対象班・回覧期限）
+- 回覧板作成（タイトル・PDF/画像アップロード・配信対象班）
 - 回覧板削除
 
 #### 設定
@@ -161,7 +161,6 @@ circulars（回覧板）
   ├── file_url
   ├── file_type                # pdf / image
   ├── target_type              # all / blocks
-  ├── expires_at
   └── status                   # published / closed
 
 circular_targets（配信対象班）
