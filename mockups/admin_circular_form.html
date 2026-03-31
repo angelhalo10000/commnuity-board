@@ -10,6 +10,14 @@
     .block-check { display: flex; align-items: center; gap: 6px; padding: 8px 14px; border: 1px solid var(--border); border-radius: var(--radius); font-size: 14px; cursor: pointer; background: var(--white); }
     .block-check input { accent-color: var(--primary); }
     .block-check:has(input:checked) { background: var(--primary-light); border-color: var(--primary); color: var(--primary); font-weight: 600; }
+
+    /* プレビューモーダル */
+    .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:200; align-items:center; justify-content:center; }
+    .modal-overlay.open { display:flex; }
+    .modal { background:#fff; border-radius:12px; width:90%; max-width:680px; max-height:90vh; overflow-y:auto; box-shadow:0 20px 60px rgba(0,0,0,0.2); }
+    .modal-header { padding:16px 20px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; background:#fff; }
+    .modal-body { padding:24px; }
+    .modal-close { background:none; border:none; font-size:22px; cursor:pointer; color:var(--text-muted); line-height:1; }
   </style>
 </head>
 <body>
@@ -88,13 +96,55 @@
 
         </div>
 
+        <!-- 配信設定 -->
+        <div class="card" style="margin-top:16px;">
+          <div style="font-size:15px; font-weight:700; margin-bottom:14px;">配信設定</div>
+          <div style="display:flex; flex-direction:column; gap:12px;">
+            <label style="display:flex; align-items:center; gap:8px; font-size:14px; cursor:pointer;">
+              <input type="radio" name="publish" checked style="accent-color:var(--primary);"> すぐに配信する
+            </label>
+            <label style="display:flex; align-items:flex-start; gap:8px; font-size:14px; cursor:pointer;">
+              <input type="radio" name="publish" style="accent-color:var(--primary); margin-top:2px;"> 予約配信する
+            </label>
+            <div style="margin-left:22px; display:flex; gap:10px; align-items:center;">
+              <input type="date" class="form-control" style="max-width:160px;" value="2026-04-01">
+              <input type="time" class="form-control" style="max-width:120px;" value="09:00">
+            </div>
+          </div>
+        </div>
+
         <!-- アクションボタン -->
         <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:16px;">
           <a href="admin_dashboard.html" class="btn btn-secondary">キャンセル</a>
+          <button class="btn btn-secondary" onclick="document.getElementById('previewModal').classList.add('open')">👁 プレビュー</button>
           <a href="admin_dashboard.html" class="btn btn-primary">配信する</a>
         </div>
       </div>
     </main>
+  </div>
+
+  <!-- プレビューモーダル -->
+  <div class="modal-overlay" id="previewModal">
+    <div class="modal">
+      <div class="modal-header">
+        <div style="font-size:15px; font-weight:700;">プレビュー（会員からの見え方）</div>
+        <button class="modal-close" onclick="document.getElementById('previewModal').classList.remove('open')">×</button>
+      </div>
+      <div class="modal-body">
+        <div style="display:flex; gap:10px; align-items:center; margin-bottom:12px; flex-wrap:wrap;">
+          <span class="badge badge-block">全班</span>
+          <span style="font-size:13px; color:var(--text-muted);">2026年4月1日 配信予定</span>
+        </div>
+        <h1 style="font-size:20px; font-weight:700; margin-bottom:16px; line-height:1.4;">市からのお知らせ（4月号）</h1>
+        <hr class="divider">
+        <div class="pdf-viewer">
+          <div style="font-size:48px;">📄</div>
+          <div style="font-weight:600;">市からのお知らせ_2026年4月号.pdf</div>
+          <div style="font-size:13px;">1.2 MB · 4ページ</div>
+          <a href="file_viewer.html" target="_blank" class="btn btn-primary" style="margin-top:8px;">PDFを開く</a>
+        </div>
+      </div>
+    </div>
   </div>
 </body>
 </html>
