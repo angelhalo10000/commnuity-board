@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>回覧板管理 | 管理画面</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="header-logo">⚙️ 〇〇自治会 管理画面</div>
+    <div style="display:flex; align-items:center; gap:12px;">
+      <span style="font-size:13px; color:var(--text-muted);">会長 山田 太郎</span>
+      <a href="admin_login.html" class="btn btn-secondary btn-sm">ログアウト</a>
+    </div>
+  </header>
+
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-section">メニュー</div>
+      <a href="admin_dashboard.html" class="admin-sidebar-item">🏠 ダッシュボード</a>
+      <a href="admin_notices.html" class="admin-sidebar-item">📢 お知らせ管理</a>
+      <a href="admin_circulars.html" class="admin-sidebar-item active">📋 回覧板管理</a>
+      <div class="admin-sidebar-section">設定</div>
+      <a href="admin_settings.html" class="admin-sidebar-item">🔑 サイト設定</a>
+      <a href="index.html" class="admin-sidebar-item" target="_blank">🔗 サイトを表示</a>
+    </aside>
+
+    <main class="admin-content">
+      <div class="section-heading" style="margin-bottom:24px;">
+        <div style="font-size:20px; font-weight:700;">回覧板管理</div>
+        <a href="admin_circular_form.html" class="btn btn-primary">+ 新規作成</a>
+      </div>
+
+      <!-- フィルター -->
+      <div class="search-bar" style="margin-bottom:20px;">
+        <div class="search-row">
+          <div class="form-group" style="flex:2; min-width:180px;">
+            <label class="form-label">キーワード</label>
+            <input type="text" class="form-control" placeholder="タイトルで検索">
+          </div>
+          <div class="form-group">
+            <label class="form-label">年</label>
+            <select class="form-control">
+              <option selected>2026年</option>
+              <option>2025年</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">月</label>
+            <select class="form-control">
+              <option selected>すべて</option>
+              <option>1月</option>
+              <option>2月</option>
+              <option>3月</option>
+            </select>
+          </div>
+          <div style="display:flex; align-items:flex-end;">
+            <button class="btn btn-primary">検索</button>
+          </div>
+        </div>
+      </div>
+
+      <div style="font-size:13px; color:var(--text-muted); margin-bottom:12px;">4件</div>
+
+      <div class="card" style="padding:0; overflow:hidden;">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>タイトル</th>
+              <th>配信対象</th>
+              <th>配信日</th>
+              <th>閲覧期限</th>
+              <th style="width:80px;"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="font-weight:500;">市からのお知らせ（3月号）</td>
+              <td>全班</td>
+              <td>2026/03/01</td>
+              <td style="color:var(--warning); font-weight:500;">2026/03/31</td>
+              <td><button class="btn btn-danger btn-sm">削除</button></td>
+            </tr>
+            <tr>
+              <td style="font-weight:500;">交通安全キャンペーンのご案内</td>
+              <td>全班</td>
+              <td>2026/02/20</td>
+              <td>—</td>
+              <td><button class="btn btn-danger btn-sm">削除</button></td>
+            </tr>
+            <tr>
+              <td style="font-weight:500;">市からのお知らせ（2月号）</td>
+              <td>全班</td>
+              <td>2026/02/01</td>
+              <td>—</td>
+              <td><button class="btn btn-danger btn-sm">削除</button></td>
+            </tr>
+            <tr>
+              <td style="font-weight:500;">ごみ収集日程変更のお知らせ</td>
+              <td>1班・2班</td>
+              <td>2026/01/15</td>
+              <td>—</td>
+              <td><button class="btn btn-danger btn-sm">削除</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="pagination">
+        <div class="page-btn">‹</div>
+        <div class="page-btn active">1</div>
+        <div class="page-btn">2</div>
+        <div class="page-btn">›</div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
