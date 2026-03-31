@@ -64,8 +64,20 @@
               <div style="font-size:40px; margin-bottom:8px;">📄</div>
               <div style="font-size:14px; font-weight:600; margin-bottom:4px;">PDFまたは画像をドラッグ＆ドロップ</div>
               <div style="font-size:13px;">または</div>
-              <button class="btn btn-secondary btn-sm" style="margin-top:10px;">ファイルを選択</button>
-              <div style="font-size:12px; margin-top:8px;">PDF・JPEG・PNG · 最大10MB</div>
+              <button class="btn btn-secondary btn-sm" style="margin-top:10px;">ファイルを選択（複数可）</button>
+              <div style="font-size:12px; margin-top:8px;">PDF・JPEG・PNG · 1ファイル最大10MB</div>
+            </div>
+            <div style="margin-top:10px; display:flex; flex-direction:column; gap:8px;">
+              <div style="padding:10px 14px; background:var(--bg); border:1px solid var(--border); border-radius:var(--radius); display:flex; align-items:center; gap:10px; font-size:14px;">
+                <span>📄</span>
+                <span style="flex:1;">市からのお知らせ_4月号.pdf <span style="color:var(--text-muted);">1.2MB</span></span>
+                <button style="background:none; border:none; color:var(--danger); cursor:pointer; font-size:18px;">×</button>
+              </div>
+              <div style="padding:10px 14px; background:var(--bg); border:1px solid var(--border); border-radius:var(--radius); display:flex; align-items:center; gap:10px; font-size:14px;">
+                <span>🖼️</span>
+                <span style="flex:1;">案内図.png <span style="color:var(--text-muted);">340KB</span></span>
+                <button style="background:none; border:none; color:var(--danger); cursor:pointer; font-size:18px;">×</button>
+              </div>
             </div>
           </div>
 
@@ -137,11 +149,17 @@
         </div>
         <h1 style="font-size:20px; font-weight:700; margin-bottom:16px; line-height:1.4;">市からのお知らせ（4月号）</h1>
         <hr class="divider">
-        <div class="pdf-viewer">
-          <div style="font-size:48px;">📄</div>
-          <div style="font-weight:600;">市からのお知らせ_2026年4月号.pdf</div>
-          <div style="font-size:13px;">1.2 MB · 4ページ</div>
-          <a href="file_viewer.html" target="_blank" class="btn btn-primary" style="margin-top:8px;">PDFを開く</a>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <div style="padding:10px 14px; background:var(--bg); border:1px solid var(--border); border-radius:var(--radius); display:flex; align-items:center; gap:10px; font-size:14px;">
+            <span>📄</span>
+            <span style="flex:1;">市からのお知らせ_4月号.pdf <span style="color:var(--text-muted);">1.2MB</span></span>
+            <a href="file_viewer.html" target="_blank" class="btn btn-secondary btn-sm">表示</a>
+          </div>
+          <div style="padding:10px 14px; background:var(--bg); border:1px solid var(--border); border-radius:var(--radius); display:flex; align-items:center; gap:10px; font-size:14px;">
+            <span>🖼️</span>
+            <span style="flex:1;">案内図.png <span style="color:var(--text-muted);">340KB</span></span>
+            <a href="file_viewer.html" target="_blank" class="btn btn-secondary btn-sm">表示</a>
+          </div>
         </div>
       </div>
     </div>
