@@ -10,6 +10,7 @@
     .hero h1 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
     .hero p { font-size: 14px; opacity: 0.85; }
     .top-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .top-grid > div { min-width: 0; }
     @media (max-width: 640px) { .top-grid { grid-template-columns: 1fr; } }
     .circular-card {
       background: var(--white);
