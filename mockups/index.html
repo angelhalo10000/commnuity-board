@@ -16,18 +16,16 @@
       border: 1px solid var(--border);
       border-radius: var(--radius);
       padding: 16px 20px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      display: block;
       box-shadow: var(--shadow);
       color: var(--text);
       transition: box-shadow 0.15s;
     }
     .circular-card:hover { box-shadow: var(--shadow-md); text-decoration: none; }
     .circular-card + .circular-card { margin-top: 10px; }
-    .circular-icon { width: 44px; height: 44px; background: #fef3c7; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
-    .circular-card-title { font-size: 14px; font-weight: 600; }
-    .circular-card-meta { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+    .circular-icon { display: none; }
+    .circular-card-title { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+    .circular-card-meta { font-size: 13px; color: var(--text-muted); }
   </style>
 </head>
 <body>
