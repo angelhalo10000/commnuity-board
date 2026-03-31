@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>班管理 | 管理画面</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .block-row {
+      display: flex;
+      align-items: center;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--border);
+      gap: 16px;
+    }
+    .block-row:last-child { border-bottom: none; }
+    .block-row:hover { background: var(--bg); }
+    .block-order { width: 32px; height: 32px; background: var(--primary-light); color: var(--primary); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; flex-shrink: 0; }
+    .block-name { font-size: 16px; font-weight: 600; flex: 1; }
+    .block-status-active { color: var(--success); font-size: 13px; font-weight: 600; }
+    .block-status-inactive { color: var(--text-muted); font-size: 13px; }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-logo">⚙️ 〇〇自治会 管理画面</div>
+    <div style="display:flex; align-items:center; gap:12px;">
+      <span style="font-size:13px; color:var(--text-muted);">会長 山田 太郎</span>
+      <a href="admin_login.html" class="btn btn-secondary btn-sm">ログアウト</a>
+    </div>
+  </header>
+
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-section">メニュー</div>
+      <a href="admin_dashboard.html" class="admin-sidebar-item">🏠 ダッシュボード</a>
+      <a href="admin_notices.html" class="admin-sidebar-item">📢 お知らせ管理</a>
+      <a href="admin_circulars.html" class="admin-sidebar-item">📋 回覧板管理</a>
+      <a href="admin_blocks.html" class="admin-sidebar-item active">🏘 班管理</a>
+      <div class="admin-sidebar-section">設定</div>
+      <a href="admin_settings.html" class="admin-sidebar-item">🔑 サイト設定</a>
+      <a href="index.html" class="admin-sidebar-item" target="_blank">🔗 サイトを表示</a>
+    </aside>
+
+    <main class="admin-content">
+      <div class="section-heading" style="margin-bottom:8px;">
+        <div style="font-size:20px; font-weight:700;">班管理</div>
+        <a href="admin_block_form.html" class="btn btn-primary">+ 班を追加</a>
+      </div>
+      <div style="font-size:13px; color:var(--text-muted); margin-bottom:24px;">班の追加・名称変更・統廃合ができます。</div>
+
+      <div class="card" style="padding:0; overflow:hidden; max-width:600px;">
+        <div class="block-row">
+          <div class="block-order">1</div>
+          <div class="block-name">1班</div>
+          <div class="block-status-active">● 有効</div>
+          <a href="admin_block_form.html" class="btn btn-secondary btn-sm">編集</a>
+        </div>
+        <div class="block-row">
+          <div class="block-order">2</div>
+          <div class="block-name">2班</div>
+          <div class="block-status-active">● 有効</div>
+          <a href="admin_block_form.html" class="btn btn-secondary btn-sm">編集</a>
+        </div>
+        <div class="block-row">
+          <div class="block-order">3</div>
+          <div class="block-name">3班</div>
+          <div class="block-status-active">● 有効</div>
+          <a href="admin_block_form.html" class="btn btn-secondary btn-sm">編集</a>
+        </div>
+        <div class="block-row">
+          <div class="block-order">4</div>
+          <div class="block-name">4班</div>
+          <div class="block-status-active">● 有効</div>
+          <a href="admin_block_form.html" class="btn btn-secondary btn-sm">編集</a>
+        </div>
+        <div class="block-row">
+          <div class="block-order">5</div>
+          <div class="block-name">5班</div>
+          <div class="block-status-active">● 有効</div>
+          <a href="admin_block_form.html" class="btn btn-secondary btn-sm">編集</a>
+        </div>
+        <div class="block-row">
+          <div class="block-order">6</div>
+          <div class="block-name">6班</div>
+          <div class="block-status-active">● 有効</div>
+          <a href="admin_block_form.html" class="btn btn-secondary btn-sm">編集</a>
+        </div>
+        <div class="block-row">
+          <div class="block-order">7</div>
+          <div class="block-name">7班</div>
+          <div class="block-status-active">● 有効</div>
+          <a href="admin_block_form.html" class="btn btn-secondary btn-sm">編集</a>
+        </div>
+        <div class="block-row">
+          <div class="block-order">8</div>
+          <div class="block-name">8班（統廃合済み）</div>
+          <div class="block-status-inactive">● 無効</div>
+          <a href="admin_block_form.html" class="btn btn-secondary btn-sm">編集</a>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
