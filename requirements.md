@@ -144,6 +144,8 @@ notices（お知らせ）
   ├── target_type              # all / blocks
   ├── status                   # draft / scheduled / published / archived
   ├── scheduled_at             # 予約投稿日時（nullable）
+  ├── created_at               # 作成日時
+  └── updated_at               # 更新日時（編集時に自動更新）
   └── published_at
 
 notice_targets（配信対象班）
