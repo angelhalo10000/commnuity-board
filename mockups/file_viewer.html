@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>清掃エリアマップ.pdf</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { margin: 0; background: #374151; min-height: 100vh; display: flex; flex-direction: column; }
+    .viewer-header {
+      background: #1f2937;
+      color: #fff;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .viewer-filename { font-size: 14px; font-weight: 600; }
+    .viewer-meta { font-size: 12px; color: #9ca3af; }
+    .viewer-actions { display: flex; gap: 8px; }
+    .viewer-body { flex: 1; display: flex; align-items: center; justify-content: center; padding: 24px; }
+    .pdf-page {
+      background: #fff;
+      width: 100%;
+      max-width: 640px;
+      aspect-ratio: 210/297;
+      border-radius: 4px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      color: #9ca3af;
+    }
+    .pdf-page-icon { font-size: 64px; }
+    .pdf-page-label { font-size: 15px; font-weight: 500; color: #374151; }
+    .pdf-page-sub { font-size: 13px; }
+
+    /* ページナビ */
+    .viewer-nav {
+      background: #1f2937;
+      color: #fff;
+      padding: 10px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      font-size: 14px;
+    }
+    .nav-btn { background: #374151; border: none; color: #fff; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-size: 13px; }
+    .nav-btn:hover { background: #4b5563; }
+  </style>
+</head>
+<body>
+  <div class="viewer-header">
+    <div>
+      <div class="viewer-filename">📄 清掃エリアマップ.pdf</div>
+      <div class="viewer-meta">245KB · 2ページ</div>
+    </div>
+    <div class="viewer-actions">
+      <button class="btn btn-secondary btn-sm" style="background:#374151; color:#fff; border-color:#4b5563;">⬇ ダウンロード</button>
+      <button class="btn btn-secondary btn-sm" style="background:#374151; color:#fff; border-color:#4b5563;" onclick="window.close()">✕ 閉じる</button>
+    </div>
+  </div>
+
+  <div class="viewer-body">
+    <div class="pdf-page">
+      <div class="pdf-page-icon">🗺️</div>
+      <div class="pdf-page-label">清掃エリアマップ</div>
+      <div class="pdf-page-sub">（PDFコンテンツ表示領域）</div>
+    </div>
+  </div>
+
+  <div class="viewer-nav">
+    <button class="nav-btn">‹ 前のページ</button>
+    <span>1 / 2 ページ</span>
+    <button class="nav-btn">次のページ ›</button>
+  </div>
+</body>
+</html>

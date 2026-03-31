@@ -10,6 +10,14 @@
     .block-check { display: flex; align-items: center; gap: 6px; padding: 8px 14px; border: 1px solid var(--border); border-radius: var(--radius); font-size: 14px; cursor: pointer; background: var(--white); }
     .block-check input { accent-color: var(--primary); }
     .block-check:has(input:checked) { background: var(--primary-light); border-color: var(--primary); color: var(--primary); font-weight: 600; }
+
+    /* プレビューモーダル */
+    .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:200; align-items:center; justify-content:center; }
+    .modal-overlay.open { display:flex; }
+    .modal { background:#fff; border-radius:12px; width:90%; max-width:680px; max-height:90vh; overflow-y:auto; box-shadow:0 20px 60px rgba(0,0,0,0.2); }
+    .modal-header { padding:16px 20px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; position:sticky; top:0; background:#fff; }
+    .modal-body { padding:24px; }
+    .modal-close { background:none; border:none; font-size:22px; cursor:pointer; color:var(--text-muted); line-height:1; }
   </style>
 </head>
 <body>
@@ -96,13 +104,20 @@
               <div style="font-size:32px; margin-bottom:8px;">📎</div>
               <div style="font-size:14px; font-weight:600; margin-bottom:4px;">ファイルをドラッグ＆ドロップ</div>
               <div style="font-size:13px;">または</div>
-              <button class="btn btn-secondary btn-sm" style="margin-top:10px;">ファイルを選択</button>
-              <div style="font-size:12px; margin-top:8px;">PDF・画像（JPEG/PNG）・最大10MB</div>
+              <button class="btn btn-secondary btn-sm" style="margin-top:10px;">ファイルを選択（複数可）</button>
+              <div style="font-size:12px; margin-top:8px;">PDF・画像（JPEG/PNG）・1ファイル最大10MB</div>
             </div>
-            <div style="margin-top:10px; padding:10px 14px; background:var(--bg); border:1px solid var(--border); border-radius:var(--radius); display:flex; align-items:center; gap:10px; font-size:14px;">
-              <span>📄</span>
-              <span style="flex:1;">清掃エリアマップ.pdf <span style="color:var(--text-muted);">245KB</span></span>
-              <button style="background:none; border:none; color:var(--danger); cursor:pointer; font-size:18px;">×</button>
+            <div style="margin-top:10px; display:flex; flex-direction:column; gap:8px;">
+              <div style="padding:10px 14px; background:var(--bg); border:1px solid var(--border); border-radius:var(--radius); display:flex; align-items:center; gap:10px; font-size:14px;">
+                <span>📄</span>
+                <span style="flex:1;">清掃エリアマップ.pdf <span style="color:var(--text-muted);">245KB</span></span>
+                <button style="background:none; border:none; color:var(--danger); cursor:pointer; font-size:18px;">×</button>
+              </div>
+              <div style="padding:10px 14px; background:var(--bg); border:1px solid var(--border); border-radius:var(--radius); display:flex; align-items:center; gap:10px; font-size:14px;">
+                <span>🖼️</span>
+                <span style="flex:1;">集合場所写真.jpg <span style="color:var(--text-muted);">1.2MB</span></span>
+                <button style="background:none; border:none; color:var(--danger); cursor:pointer; font-size:18px;">×</button>
+              </div>
             </div>
           </div>
 
@@ -129,10 +144,53 @@
         <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:16px; flex-wrap:wrap;">
           <a href="admin_dashboard.html" class="btn btn-secondary">キャンセル</a>
           <button class="btn btn-secondary">下書き保存</button>
+          <button class="btn btn-secondary" onclick="document.getElementById('previewModal').classList.add('open')">👁 プレビュー</button>
           <a href="admin_dashboard.html" class="btn btn-primary">公開する</a>
         </div>
       </div>
     </main>
+  </div>
+
+  <!-- プレビューモーダル -->
+  <div class="modal-overlay" id="previewModal">
+    <div class="modal">
+      <div class="modal-header">
+        <div style="font-size:15px; font-weight:700;">プレビュー（会員からの見え方）</div>
+        <button class="modal-close" onclick="document.getElementById('previewModal').classList.remove('open')">×</button>
+      </div>
+      <div class="modal-body">
+        <div style="display:flex; gap:10px; align-items:center; margin-bottom:12px; flex-wrap:wrap;">
+          <span class="badge badge-block">全班</span>
+          <span style="font-size:13px; color:var(--text-muted);">2026年4月1日 掲載予定</span>
+        </div>
+        <h1 style="font-size:20px; font-weight:700; margin-bottom:16px; line-height:1.4;">春の一斉清掃のお知らせ</h1>
+        <hr class="divider">
+        <div style="font-size:15px; line-height:1.8; white-space:pre-wrap;">会員の皆様へ
+
+春の一斉清掃を下記の通り実施します。
+ご参加のほどよろしくお願いいたします。
+
+■日時
+4月5日（日）午前9時〜11時頃
+
+■集合場所
+自治会館前</div>
+        <hr class="divider">
+        <div style="font-size:14px; font-weight:600; margin-bottom:10px;">📎 添付ファイル</div>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <div style="padding:10px 14px; background:var(--bg); border:1px solid var(--border); border-radius:var(--radius); display:flex; align-items:center; gap:10px; font-size:14px;">
+            <span>📄</span>
+            <span style="flex:1;">清掃エリアマップ.pdf <span style="color:var(--text-muted);">245KB</span></span>
+            <a href="file_viewer.html" target="_blank" class="btn btn-secondary btn-sm">表示</a>
+          </div>
+          <div style="padding:10px 14px; background:var(--bg); border:1px solid var(--border); border-radius:var(--radius); display:flex; align-items:center; gap:10px; font-size:14px;">
+            <span>🖼️</span>
+            <span style="flex:1;">集合場所写真.jpg <span style="color:var(--text-muted);">1.2MB</span></span>
+            <a href="file_viewer.html" target="_blank" class="btn btn-secondary btn-sm">表示</a>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </body>
 </html>
