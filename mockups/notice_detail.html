@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>お知らせ詳細 | 〇〇自治会</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .notice-body { font-size: 16px; line-height: 1.8; white-space: pre-wrap; }
+    .attachment { display: flex; align-items: center; gap: 10px; padding: 12px 16px; background: var(--bg); border: 1px solid var(--border); border-radius: var(--radius); font-size: 14px; }
+    .attachment-icon { font-size: 22px; }
+    .attachment-name { font-weight: 500; }
+    .attachment-size { font-size: 12px; color: var(--text-muted); }
+    .attachment + .attachment { margin-top: 8px; }
+    .breadcrumb { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; }
+    .breadcrumb a { color: var(--text-muted); }
+    .breadcrumb a:hover { color: var(--primary); }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-logo">🏘 〇〇自治会</div>
+    <nav class="header-nav">
+      <a href="index.html">トップ</a>
+      <a href="notices.html" class="active">お知らせ</a>
+      <a href="circulars.html">回覧板</a>
+    </nav>
+  </header>
+
+  <div class="container" style="max-width:720px;">
+
+    <div class="breadcrumb">
+      <a href="index.html">トップ</a> › <a href="notices.html">お知らせ</a> › 春の一斉清掃のお知らせ
+    </div>
+
+    <div class="card">
+      <!-- メタ情報 -->
+      <div style="display:flex; gap:10px; align-items:center; margin-bottom:12px; flex-wrap:wrap;">
+        <span class="badge badge-new">新着</span>
+        <span class="badge badge-block">全班</span>
+        <span style="font-size:13px; color:var(--text-muted);">2026年3月28日 掲載</span>
+      </div>
+
+      <!-- タイトル -->
+      <h1 style="font-size:22px; font-weight:700; margin-bottom:20px; line-height:1.4;">
+        春の一斉清掃のお知らせ
+      </h1>
+
+      <hr class="divider">
+
+      <!-- 本文 -->
+      <div class="notice-body">会員の皆様へ
+
+春の一斉清掃を下記の通り実施します。
+ご参加のほどよろしくお願いいたします。
+
+■日時
+4月5日（日）午前9時〜11時頃
+
+■集合場所
+自治会館前
+
+■内容
+・道路・側溝の清掃
+・公園の除草・ゴミ拾い
+
+■持ち物
+軍手、熊手、ごみ袋（各自ご持参ください）
+※道具の貸し出しは数に限りがあります
+
+■雨天の場合
+翌週4月12日（日）に延期します。
+延期の場合は前日までにこのサイトでお知らせします。
+
+ご不明な点は自治会長までお問い合わせください。</div>
+
+      <!-- 添付ファイル -->
+      <hr class="divider">
+      <div style="font-size:14px; font-weight:600; margin-bottom:10px;">📎 添付ファイル</div>
+      <div class="attachment">
+        <div class="attachment-icon">📄</div>
+        <div style="flex:1;">
+          <div class="attachment-name">清掃エリアマップ.pdf</div>
+          <div class="attachment-size">245 KB</div>
+        </div>
+        <button class="btn btn-secondary btn-sm">ダウンロード</button>
+      </div>
+    </div>
+
+    <!-- 戻るボタン -->
+    <div style="margin-top:20px;">
+      <a href="notices.html" class="btn btn-secondary">← お知らせ一覧に戻る</a>
+    </div>
+
+  </div>
+</body>
+</html>

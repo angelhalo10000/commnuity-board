@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>回覧板作成 | 管理画面</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .block-checkboxes { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+    .block-check { display: flex; align-items: center; gap: 6px; padding: 8px 14px; border: 1px solid var(--border); border-radius: var(--radius); font-size: 14px; cursor: pointer; background: var(--white); }
+    .block-check input { accent-color: var(--primary); }
+    .block-check:has(input:checked) { background: var(--primary-light); border-color: var(--primary); color: var(--primary); font-weight: 600; }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-logo">⚙️ 〇〇自治会 管理画面</div>
+    <div style="display:flex; align-items:center; gap:12px;">
+      <span style="font-size:13px; color:var(--text-muted);">会長 山田 太郎</span>
+      <a href="admin_login.html" class="btn btn-secondary btn-sm">ログアウト</a>
+    </div>
+  </header>
+
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-section">メニュー</div>
+      <a href="admin_dashboard.html" class="admin-sidebar-item">🏠 ダッシュボード</a>
+      <a href="admin_notice_form.html" class="admin-sidebar-item">📢 お知らせ管理</a>
+      <a href="admin_circular_form.html" class="admin-sidebar-item active">📋 回覧板管理</a>
+      <div class="admin-sidebar-section">設定</div>
+      <a href="admin_settings.html" class="admin-sidebar-item">🔑 サイト設定</a>
+      <a href="index.html" class="admin-sidebar-item" target="_blank">🔗 サイトを表示</a>
+    </aside>
+
+    <main class="admin-content">
+      <div style="display:flex; align-items:center; gap:12px; margin-bottom:24px;">
+        <a href="admin_dashboard.html" style="color:var(--text-muted); font-size:13px;">← ダッシュボード</a>
+        <span style="color:var(--border);">|</span>
+        <div style="font-size:20px; font-weight:700;">回覧板作成</div>
+      </div>
+
+      <div style="max-width:700px;">
+        <div class="card">
+
+          <!-- タイトル -->
+          <div class="form-group">
+            <label class="form-label">タイトル <span class="required">*</span></label>
+            <input type="text" class="form-control" placeholder="例：市からのお知らせ（4月号）">
+          </div>
+
+          <!-- ファイルアップロード -->
+          <div class="form-group">
+            <label class="form-label">ファイル <span class="required">*</span></label>
+            <div class="file-upload">
+              <div style="font-size:40px; margin-bottom:8px;">📄</div>
+              <div style="font-size:14px; font-weight:600; margin-bottom:4px;">PDFまたは画像をドラッグ＆ドロップ</div>
+              <div style="font-size:13px;">または</div>
+              <button class="btn btn-secondary btn-sm" style="margin-top:10px;">ファイルを選択</button>
+              <div style="font-size:12px; margin-top:8px;">PDF・JPEG・PNG · 最大10MB</div>
+            </div>
+          </div>
+
+          <!-- 配信対象 -->
+          <div class="form-group">
+            <label class="form-label">配信対象 <span class="required">*</span></label>
+            <div style="margin-bottom:10px;">
+              <label style="display:flex; align-items:center; gap:8px; font-size:14px; cursor:pointer;">
+                <input type="radio" name="target" checked style="accent-color:var(--primary);"> 全班に配信
+              </label>
+            </div>
+            <div style="margin-bottom:10px;">
+              <label style="display:flex; align-items:center; gap:8px; font-size:14px; cursor:pointer;">
+                <input type="radio" name="target" style="accent-color:var(--primary);"> 班を指定して配信
+              </label>
+            </div>
+            <div class="block-checkboxes">
+              <label class="block-check"><input type="checkbox"> 1班</label>
+              <label class="block-check"><input type="checkbox"> 2班</label>
+              <label class="block-check"><input type="checkbox"> 3班</label>
+              <label class="block-check"><input type="checkbox"> 4班</label>
+              <label class="block-check"><input type="checkbox"> 5班</label>
+              <label class="block-check"><input type="checkbox"> 6班</label>
+              <label class="block-check"><input type="checkbox"> 7班</label>
+              <label class="block-check"><input type="checkbox"> 8班</label>
+            </div>
+          </div>
+
+          <!-- 閲覧期限 -->
+          <div class="form-group">
+            <label class="form-label">閲覧期限</label>
+            <input type="date" class="form-control" style="max-width:220px;">
+            <div class="form-hint">設定しない場合は無期限で公開されます</div>
+          </div>
+
+        </div>
+
+        <!-- アクションボタン -->
+        <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:16px;">
+          <a href="admin_dashboard.html" class="btn btn-secondary">キャンセル</a>
+          <a href="admin_dashboard.html" class="btn btn-primary">配信する</a>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

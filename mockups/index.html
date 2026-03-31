@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>トップ | 〇〇自治会</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .hero { background: var(--primary); color: #fff; padding: 28px 20px; text-align: center; }
+    .hero h1 { font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+    .hero p { font-size: 14px; opacity: 0.85; }
+    .top-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    @media (max-width: 640px) { .top-grid { grid-template-columns: 1fr; } }
+    .circular-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      box-shadow: var(--shadow);
+      color: var(--text);
+      transition: box-shadow 0.15s;
+    }
+    .circular-card:hover { box-shadow: var(--shadow-md); text-decoration: none; }
+    .circular-card + .circular-card { margin-top: 10px; }
+    .circular-icon { width: 44px; height: 44px; background: #fef3c7; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0; }
+    .circular-card-title { font-size: 14px; font-weight: 600; }
+    .circular-card-meta { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-logo">🏘 〇〇自治会</div>
+    <nav class="header-nav">
+      <a href="index.html" class="active">トップ</a>
+      <a href="notices.html">お知らせ</a>
+      <a href="circulars.html">回覧板</a>
+    </nav>
+  </header>
+
+  <div class="hero">
+    <h1>〇〇自治会</h1>
+    <p>お知らせや回覧板をオンラインで確認できます</p>
+  </div>
+
+  <div class="container">
+    <div class="top-grid">
+
+      <!-- お知らせ -->
+      <div>
+        <div class="section-heading">
+          <h2>📢 最新のお知らせ</h2>
+          <a href="notices.html" style="font-size:13px;">すべて見る →</a>
+        </div>
+
+        <a href="notice_detail.html" class="notice-card">
+          <div class="notice-card-meta">
+            <span class="badge badge-new">新着</span>
+            <span>2026年3月28日</span>
+          </div>
+          <div class="notice-card-title" style="margin-top:6px;">春の一斉清掃のお知らせ</div>
+          <div class="notice-card-body">4月5日（日）午前9時より、自治会館前に集合してください。道具は各自ご持参ください...</div>
+        </a>
+
+        <a href="notice_detail.html" class="notice-card">
+          <div class="notice-card-meta">
+            <span>2026年3月20日</span>
+          </div>
+          <div class="notice-card-title" style="margin-top:6px;">令和8年度総会のご案内</div>
+          <div class="notice-card-body">4月18日（土）午後2時より自治会館にて総会を開催します。ご参加をよろしくお願いします...</div>
+        </a>
+
+        <a href="notice_detail.html" class="notice-card">
+          <div class="notice-card-meta">
+            <span>2026年3月10日</span>
+          </div>
+          <div class="notice-card-title" style="margin-top:6px;">防犯カメラ設置について</div>
+          <div class="notice-card-body">3月末に自治会館周辺に防犯カメラを2台設置予定です。詳細は下記をご参照ください...</div>
+        </a>
+      </div>
+
+      <!-- 回覧板 -->
+      <div>
+        <div class="section-heading">
+          <h2>📋 最新の回覧板</h2>
+          <a href="circulars.html" style="font-size:13px;">すべて見る →</a>
+        </div>
+
+        <a href="circular_detail.html" class="circular-card">
+          <div class="circular-icon">📄</div>
+          <div>
+            <div class="circular-card-title">市からのお知らせ（3月号）</div>
+            <div class="circular-card-meta">2026年3月1日配信 · 全班</div>
+          </div>
+        </a>
+
+        <a href="circular_detail.html" class="circular-card">
+          <div class="circular-icon">📄</div>
+          <div>
+            <div class="circular-card-title">交通安全キャンペーンのご案内</div>
+            <div class="circular-card-meta">2026年2月20日配信 · 全班</div>
+          </div>
+        </a>
+
+        <a href="circular_detail.html" class="circular-card">
+          <div class="circular-icon">📄</div>
+          <div>
+            <div class="circular-card-title">市からのお知らせ（2月号）</div>
+            <div class="circular-card-meta">2026年2月1日配信 · 全班</div>
+          </div>
+        </a>
+
+        <a href="circular_detail.html" class="circular-card">
+          <div class="circular-icon">📄</div>
+          <div>
+            <div class="circular-card-title">ごみ収集日程変更のお知らせ</div>
+            <div class="circular-card-meta">2026年1月15日配信 · 1班・2班</div>
+          </div>
+        </a>
+      </div>
+
+    </div>
+  </div>
+</body>
+</html>

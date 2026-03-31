@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>回覧板一覧 | 〇〇自治会</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .circular-list-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: var(--shadow);
+      color: var(--text);
+      transition: box-shadow 0.15s;
+    }
+    .circular-list-card:hover { box-shadow: var(--shadow-md); text-decoration: none; }
+    .circular-list-card + .circular-list-card { margin-top: 10px; }
+    .circular-list-icon { width: 52px; height: 52px; background: #fef9c3; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 26px; flex-shrink: 0; }
+    .circular-list-title { font-size: 16px; font-weight: 600; margin-bottom: 4px; }
+    .circular-list-meta { font-size: 13px; color: var(--text-muted); display: flex; gap: 12px; flex-wrap: wrap; }
+    .circular-list-arrow { color: var(--text-muted); font-size: 18px; margin-left: auto; }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-logo">🏘 〇〇自治会</div>
+    <nav class="header-nav">
+      <a href="index.html">トップ</a>
+      <a href="notices.html">お知らせ</a>
+      <a href="circulars.html" class="active">回覧板</a>
+    </nav>
+  </header>
+
+  <div class="container">
+    <div class="page-title">📋 回覧板一覧</div>
+
+    <!-- 検索バー -->
+    <div class="search-bar">
+      <div class="search-row">
+        <div class="form-group" style="flex:2; min-width:200px;">
+          <label class="form-label">キーワード</label>
+          <input type="text" class="form-control" placeholder="タイトルで検索">
+        </div>
+        <div class="form-group">
+          <label class="form-label">年</label>
+          <select class="form-control">
+            <option>すべて</option>
+            <option selected>2026年</option>
+            <option>2025年</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">月</label>
+          <select class="form-control">
+            <option selected>すべて</option>
+            <option>1月</option>
+            <option>2月</option>
+            <option>3月</option>
+          </select>
+        </div>
+        <div style="display:flex; align-items:flex-end;">
+          <button class="btn btn-primary">検索</button>
+        </div>
+      </div>
+    </div>
+
+    <div style="font-size:13px; color:var(--text-muted); margin-bottom:14px;">
+      4件の回覧板（2026年）
+    </div>
+
+    <a href="circular_detail.html" class="circular-list-card">
+      <div class="circular-list-icon">📄</div>
+      <div style="flex:1;">
+        <div class="circular-list-title">市からのお知らせ（3月号）</div>
+        <div class="circular-list-meta">
+          <span>2026年3月1日配信</span>
+          <span class="badge badge-block">全班</span>
+          <span style="color:#d97706;">期限: 3月31日</span>
+        </div>
+      </div>
+      <div class="circular-list-arrow">›</div>
+    </a>
+
+    <a href="circular_detail.html" class="circular-list-card">
+      <div class="circular-list-icon">📄</div>
+      <div style="flex:1;">
+        <div class="circular-list-title">交通安全キャンペーンのご案内</div>
+        <div class="circular-list-meta">
+          <span>2026年2月20日配信</span>
+          <span class="badge badge-block">全班</span>
+        </div>
+      </div>
+      <div class="circular-list-arrow">›</div>
+    </a>
+
+    <a href="circular_detail.html" class="circular-list-card">
+      <div class="circular-list-icon">📄</div>
+      <div style="flex:1;">
+        <div class="circular-list-title">市からのお知らせ（2月号）</div>
+        <div class="circular-list-meta">
+          <span>2026年2月1日配信</span>
+          <span class="badge badge-block">全班</span>
+        </div>
+      </div>
+      <div class="circular-list-arrow">›</div>
+    </a>
+
+    <a href="circular_detail.html" class="circular-list-card">
+      <div class="circular-list-icon">📄</div>
+      <div style="flex:1;">
+        <div class="circular-list-title">ごみ収集日程変更のお知らせ</div>
+        <div class="circular-list-meta">
+          <span>2026年1月15日配信</span>
+          <span class="badge badge-block">1班・2班</span>
+        </div>
+      </div>
+      <div class="circular-list-arrow">›</div>
+    </a>
+
+    <div class="pagination">
+      <div class="page-btn">‹</div>
+      <div class="page-btn active">1</div>
+      <div class="page-btn">2</div>
+      <div class="page-btn">›</div>
+    </div>
+  </div>
+</body>
+</html>

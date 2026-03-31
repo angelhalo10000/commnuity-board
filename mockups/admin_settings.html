@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>設定 | 管理画面</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="header">
+    <div class="header-logo">⚙️ 〇〇自治会 管理画面</div>
+    <div style="display:flex; align-items:center; gap:12px;">
+      <span style="font-size:13px; color:var(--text-muted);">会長 山田 太郎</span>
+      <a href="admin_login.html" class="btn btn-secondary btn-sm">ログアウト</a>
+    </div>
+  </header>
+
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-section">メニュー</div>
+      <a href="admin_dashboard.html" class="admin-sidebar-item">🏠 ダッシュボード</a>
+      <a href="admin_notice_form.html" class="admin-sidebar-item">📢 お知らせ管理</a>
+      <a href="admin_circular_form.html" class="admin-sidebar-item">📋 回覧板管理</a>
+      <div class="admin-sidebar-section">設定</div>
+      <a href="admin_settings.html" class="admin-sidebar-item active">🔑 サイト設定</a>
+      <a href="index.html" class="admin-sidebar-item" target="_blank">🔗 サイトを表示</a>
+    </aside>
+
+    <main class="admin-content">
+      <div style="font-size:20px; font-weight:700; margin-bottom:24px;">サイト設定</div>
+
+      <div style="max-width:600px; display:flex; flex-direction:column; gap:20px;">
+
+        <!-- 会員共通パスワード -->
+        <div class="card">
+          <div style="font-size:16px; font-weight:700; margin-bottom:4px;">🔑 会員共通パスワード</div>
+          <div style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">会員がサイトにアクセスするための共通パスワードです。変更した場合は全会員に新しいパスワードをお知らせください。</div>
+          <div class="form-group">
+            <label class="form-label">現在のパスワード</label>
+            <input type="password" class="form-control" placeholder="現在のパスワードを入力" style="max-width:320px;">
+          </div>
+          <div class="form-group">
+            <label class="form-label">新しいパスワード</label>
+            <input type="password" class="form-control" placeholder="新しいパスワードを入力" style="max-width:320px;">
+          </div>
+          <div class="form-group">
+            <label class="form-label">新しいパスワード（確認）</label>
+            <input type="password" class="form-control" placeholder="もう一度入力" style="max-width:320px;">
+          </div>
+          <button class="btn btn-primary">パスワードを変更</button>
+        </div>
+
+        <!-- 管理者パスワード -->
+        <div class="card">
+          <div style="font-size:16px; font-weight:700; margin-bottom:4px;">👤 管理者パスワード変更</div>
+          <div style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">会長ログイン用のパスワードを変更します。</div>
+          <div class="form-group">
+            <label class="form-label">現在のパスワード</label>
+            <input type="password" class="form-control" placeholder="現在のパスワードを入力" style="max-width:320px;">
+          </div>
+          <div class="form-group">
+            <label class="form-label">新しいパスワード</label>
+            <input type="password" class="form-control" placeholder="新しいパスワードを入力" style="max-width:320px;">
+          </div>
+          <div class="form-group">
+            <label class="form-label">新しいパスワード（確認）</label>
+            <input type="password" class="form-control" placeholder="もう一度入力" style="max-width:320px;">
+          </div>
+          <button class="btn btn-primary">パスワードを変更</button>
+        </div>
+
+        <!-- 自治会名 -->
+        <div class="card">
+          <div style="font-size:16px; font-weight:700; margin-bottom:4px;">🏘 自治会名</div>
+          <div style="font-size:13px; color:var(--text-muted); margin-bottom:16px;">サイトのヘッダーに表示される自治会名です。</div>
+          <div class="form-group">
+            <label class="form-label">自治会名</label>
+            <input type="text" class="form-control" value="〇〇自治会" style="max-width:320px;">
+          </div>
+          <button class="btn btn-primary">保存</button>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</body>
+</html>

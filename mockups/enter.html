@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>パスワード入力 | 〇〇自治会</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: var(--bg); }
+    .enter-box { width: 100%; max-width: 380px; padding: 20px; }
+    .enter-logo { text-align: center; margin-bottom: 32px; }
+    .enter-logo-icon { width: 64px; height: 64px; background: var(--primary); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; font-size: 28px; }
+    .enter-logo-title { font-size: 20px; font-weight: 700; color: var(--text); }
+    .enter-logo-sub { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
+    .enter-card { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 28px; box-shadow: var(--shadow-md); }
+    .enter-card h2 { font-size: 17px; font-weight: 700; margin-bottom: 6px; }
+    .enter-card p { font-size: 14px; color: var(--text-muted); margin-bottom: 20px; }
+    .enter-footer { text-align: center; margin-top: 20px; font-size: 13px; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+  <div class="enter-box">
+    <div class="enter-logo">
+      <div class="enter-logo-icon">🏘</div>
+      <div class="enter-logo-title">〇〇自治会</div>
+      <div class="enter-logo-sub">電子自治会サービス</div>
+    </div>
+
+    <div class="enter-card">
+      <h2>サイトへのアクセス</h2>
+      <p>このサイトは自治会会員専用です。<br>配布されたパスワードを入力してください。</p>
+
+      <div class="form-group">
+        <label class="form-label">パスワード <span class="required">*</span></label>
+        <input type="password" class="form-control" placeholder="パスワードを入力">
+      </div>
+
+      <a href="index.html">
+        <button class="btn btn-primary btn-full btn-lg">入力する</button>
+      </a>
+    </div>
+
+    <div class="enter-footer">
+      パスワードが分からない場合は自治会会長にお問い合わせください
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>回覧板詳細 | 〇〇自治会</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .breadcrumb { font-size: 13px; color: var(--text-muted); margin-bottom: 20px; }
+    .breadcrumb a { color: var(--text-muted); }
+    .breadcrumb a:hover { color: var(--primary); }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-logo">🏘 〇〇自治会</div>
+    <nav class="header-nav">
+      <a href="index.html">トップ</a>
+      <a href="notices.html">お知らせ</a>
+      <a href="circulars.html" class="active">回覧板</a>
+    </nav>
+  </header>
+
+  <div class="container" style="max-width:720px;">
+
+    <div class="breadcrumb">
+      <a href="index.html">トップ</a> › <a href="circulars.html">回覧板</a> › 市からのお知らせ（3月号）
+    </div>
+
+    <div class="card">
+      <!-- メタ情報 -->
+      <div style="display:flex; gap:10px; align-items:center; margin-bottom:12px; flex-wrap:wrap;">
+        <span class="badge badge-block">全班</span>
+        <span style="font-size:13px; color:var(--text-muted);">2026年3月1日配信</span>
+        <span style="font-size:13px; color:#d97706;">閲覧期限: 2026年3月31日</span>
+      </div>
+
+      <!-- タイトル -->
+      <h1 style="font-size:22px; font-weight:700; margin-bottom:20px; line-height:1.4;">
+        市からのお知らせ（3月号）
+      </h1>
+
+      <hr class="divider">
+
+      <!-- PDFビューア -->
+      <div class="pdf-viewer">
+        <div style="font-size:48px;">📄</div>
+        <div style="font-weight:600;">市からのお知らせ_2026年3月号.pdf</div>
+        <div style="font-size:13px;">1.2 MB · 4ページ</div>
+        <div style="display:flex; gap:10px; margin-top:8px;">
+          <button class="btn btn-primary">PDFを開く</button>
+          <button class="btn btn-secondary">ダウンロード</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 戻るボタン -->
+    <div style="margin-top:20px;">
+      <a href="circulars.html" class="btn btn-secondary">← 回覧板一覧に戻る</a>
+    </div>
+
+  </div>
+</body>
+</html>

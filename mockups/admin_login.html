@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>管理者ログイン | 〇〇自治会</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { display: flex; align-items: center; justify-content: center; min-height: 100vh; background: var(--bg); }
+    .login-box { width: 100%; max-width: 380px; padding: 20px; }
+    .login-logo { text-align: center; margin-bottom: 28px; }
+    .login-logo-icon { width: 56px; height: 56px; background: #1e293b; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; font-size: 26px; }
+    .login-logo-title { font-size: 18px; font-weight: 700; }
+    .login-logo-sub { font-size: 13px; color: var(--text-muted); margin-top: 2px; }
+    .login-card { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 28px; box-shadow: var(--shadow-md); }
+    .login-card h2 { font-size: 16px; font-weight: 700; margin-bottom: 20px; }
+    .login-footer { text-align: center; margin-top: 16px; }
+    .login-footer a { font-size: 13px; color: var(--text-muted); }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="login-logo-icon">⚙️</div>
+      <div class="login-logo-title">〇〇自治会 管理画面</div>
+      <div class="login-logo-sub">会長専用</div>
+    </div>
+
+    <div class="login-card">
+      <h2>ログイン</h2>
+
+      <div class="form-group">
+        <label class="form-label">メールアドレス <span class="required">*</span></label>
+        <input type="email" class="form-control" placeholder="example@email.com">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">パスワード <span class="required">*</span></label>
+        <input type="password" class="form-control" placeholder="パスワードを入力">
+      </div>
+
+      <a href="admin_dashboard.html">
+        <button class="btn btn-primary btn-full" style="margin-top:4px;">ログイン</button>
+      </a>
+    </div>
+
+    <div class="login-footer">
+      <a href="#">パスワードを忘れた場合</a>
+    </div>
+  </div>
+</body>
+</html>

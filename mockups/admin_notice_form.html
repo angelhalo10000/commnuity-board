@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>お知らせ作成 | 管理画面</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .block-checkboxes { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+    .block-check { display: flex; align-items: center; gap: 6px; padding: 8px 14px; border: 1px solid var(--border); border-radius: var(--radius); font-size: 14px; cursor: pointer; background: var(--white); }
+    .block-check input { accent-color: var(--primary); }
+    .block-check:has(input:checked) { background: var(--primary-light); border-color: var(--primary); color: var(--primary); font-weight: 600; }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-logo">⚙️ 〇〇自治会 管理画面</div>
+    <div style="display:flex; align-items:center; gap:12px;">
+      <span style="font-size:13px; color:var(--text-muted);">会長 山田 太郎</span>
+      <a href="admin_login.html" class="btn btn-secondary btn-sm">ログアウト</a>
+    </div>
+  </header>
+
+  <div class="admin-layout">
+    <aside class="admin-sidebar">
+      <div class="admin-sidebar-section">メニュー</div>
+      <a href="admin_dashboard.html" class="admin-sidebar-item">🏠 ダッシュボード</a>
+      <a href="admin_notice_form.html" class="admin-sidebar-item active">📢 お知らせ管理</a>
+      <a href="admin_circular_form.html" class="admin-sidebar-item">📋 回覧板管理</a>
+      <div class="admin-sidebar-section">設定</div>
+      <a href="admin_settings.html" class="admin-sidebar-item">🔑 サイト設定</a>
+      <a href="index.html" class="admin-sidebar-item" target="_blank">🔗 サイトを表示</a>
+    </aside>
+
+    <main class="admin-content">
+      <div style="display:flex; align-items:center; gap:12px; margin-bottom:24px;">
+        <a href="admin_dashboard.html" style="color:var(--text-muted); font-size:13px;">← ダッシュボード</a>
+        <span style="color:var(--border);">|</span>
+        <div style="font-size:20px; font-weight:700;">お知らせ作成</div>
+      </div>
+
+      <div style="max-width:700px;">
+        <div class="card">
+
+          <!-- タイトル -->
+          <div class="form-group">
+            <label class="form-label">タイトル <span class="required">*</span></label>
+            <input type="text" class="form-control" placeholder="例：春の一斉清掃のお知らせ" value="春の一斉清掃のお知らせ">
+          </div>
+
+          <!-- 本文 -->
+          <div class="form-group">
+            <label class="form-label">本文 <span class="required">*</span></label>
+            <textarea class="form-control" style="min-height:240px;">会員の皆様へ
+
+春の一斉清掃を下記の通り実施します。
+ご参加のほどよろしくお願いいたします。
+
+■日時
+4月5日（日）午前9時〜11時頃
+
+■集合場所
+自治会館前</textarea>
+          </div>
+
+          <!-- 配信対象 -->
+          <div class="form-group">
+            <label class="form-label">配信対象 <span class="required">*</span></label>
+            <div style="margin-bottom:10px;">
+              <label style="display:flex; align-items:center; gap:8px; font-size:14px; cursor:pointer;">
+                <input type="radio" name="target" checked style="accent-color:var(--primary);"> 全班に配信
+              </label>
+            </div>
+            <div style="margin-bottom:10px;">
+              <label style="display:flex; align-items:center; gap:8px; font-size:14px; cursor:pointer;">
+                <input type="radio" name="target" style="accent-color:var(--primary);"> 班を指定して配信
+              </label>
+            </div>
+            <div class="block-checkboxes">
+              <label class="block-check"><input type="checkbox" checked> 1班</label>
+              <label class="block-check"><input type="checkbox" checked> 2班</label>
+              <label class="block-check"><input type="checkbox"> 3班</label>
+              <label class="block-check"><input type="checkbox"> 4班</label>
+              <label class="block-check"><input type="checkbox"> 5班</label>
+              <label class="block-check"><input type="checkbox"> 6班</label>
+              <label class="block-check"><input type="checkbox"> 7班</label>
+              <label class="block-check"><input type="checkbox"> 8班</label>
+            </div>
+          </div>
+
+          <!-- 添付ファイル -->
+          <div class="form-group">
+            <label class="form-label">添付ファイル</label>
+            <div class="file-upload">
+              <div style="font-size:32px; margin-bottom:8px;">📎</div>
+              <div style="font-size:14px; font-weight:600; margin-bottom:4px;">ファイルをドラッグ＆ドロップ</div>
+              <div style="font-size:13px;">または</div>
+              <button class="btn btn-secondary btn-sm" style="margin-top:10px;">ファイルを選択</button>
+              <div style="font-size:12px; margin-top:8px;">PDF・画像（JPEG/PNG）・最大10MB</div>
+            </div>
+            <div style="margin-top:10px; padding:10px 14px; background:var(--bg); border:1px solid var(--border); border-radius:var(--radius); display:flex; align-items:center; gap:10px; font-size:14px;">
+              <span>📄</span>
+              <span style="flex:1;">清掃エリアマップ.pdf <span style="color:var(--text-muted);">245KB</span></span>
+              <button style="background:none; border:none; color:var(--danger); cursor:pointer; font-size:18px;">×</button>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- アクションボタン -->
+        <div style="display:flex; gap:10px; justify-content:flex-end; margin-top:16px; flex-wrap:wrap;">
+          <a href="admin_dashboard.html" class="btn btn-secondary">キャンセル</a>
+          <button class="btn btn-secondary">下書き保存</button>
+          <a href="admin_dashboard.html" class="btn btn-primary">公開する</a>
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+</html>
