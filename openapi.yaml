@@ -182,11 +182,8 @@ paths:
           application/json:
             schema:
               type: object
-              required: [email, password]
+              required: [password]
               properties:
-                email:
-                  type: string
-                  format: email
                 password:
                   type: string
       responses:
@@ -200,45 +197,6 @@ paths:
       responses:
         "204":
           description: ログアウト成功
-
-  /admin/password_reset:
-    post:
-      tags: [admin-session]
-      summary: パスワードリセットメール送信
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required: [email]
-              properties:
-                email:
-                  type: string
-                  format: email
-      responses:
-        "204":
-          description: メール送信（アドレス存在有無に関わらず204を返す）
-    patch:
-      tags: [admin-session]
-      summary: 新しいパスワードを設定（メールリンクから）
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              required: [token, password]
-              properties:
-                token:
-                  type: string
-                password:
-                  type: string
-      responses:
-        "204":
-          description: パスワード変更成功
-        "422":
-          $ref: "#/components/responses/UnprocessableEntity"
 
   # ── お知らせ管理 ─────────────────────────────
 
