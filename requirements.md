@@ -99,6 +99,7 @@
 | 通信 | HTTPS必須 |
 | パスワード | bcryptハッシュ化 |
 | ファイルサイズ | 1ファイルあたり最大10MB |
+| タイムゾーン | DB は timestamptz（UTC保存）、アプリは JST（Asia/Tokyo） |
 
 ---
 
