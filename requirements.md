@@ -133,27 +133,37 @@
 
 ## 6. データモデル
 
+ファイルストレージ: Cloudflare R2（Active Storage / S3互換）
+
 ```
 organizations（自治会）
-  ├── id
+  ├── id                       # UUID7
   ├── name
   ├── member_password_digest   # 会員共通パスワード
-  └── leader_password_digest   # 班長共通パスワード
+  ├── leader_password_digest   # 班長共通パスワード
+  ├── created_at
+  └── updated_at
 
 blocks（班）※将来機能用
-  ├── id
+  ├── id                       # UUID7
   ├── organization_id
   ├── name
-  └── sort_order
+  ├── sort_order
+  ├── created_at
+  └── updated_at
 
 admin_users（会長）
-  ├── id
+  ├── id                       # UUID7
   ├── organization_id
   ├── email
-  └── password_digest
+  ├── password_digest
+  ├── reset_password_token     # nullable、ハッシュ化
+  ├── reset_password_sent_at   # nullable
+  ├── created_at
+  └── updated_at
 
 notices（お知らせ）
-  ├── id
+  ├── id                       # UUID7
   ├── organization_id
   ├── admin_user_id
   ├── title
@@ -161,26 +171,23 @@ notices（お知らせ）
   ├── target_type              # all / leaders
   ├── status                   # draft / scheduled / published / archived
   ├── scheduled_at             # 予約投稿日時（nullable）
-  ├── created_at               # 作成日時
-  ├── updated_at               # 更新日時（編集時に自動更新）
-  └── published_at
-
-notice_attachments（添付ファイル）
-  ├── id
-  ├── notice_id
-  └── file_url
+  ├── published_at             # nullable
+  ├── created_at
+  └── updated_at
+  # 添付ファイルは Active Storage で管理（notice_attachments テーブル不要）
 
 circulars（回覧板）
-  ├── id
+  ├── id                       # UUID7
   ├── organization_id
   ├── admin_user_id
   ├── title
-  ├── file_url
-  ├── file_type                # pdf / image
   ├── target_type              # all / leaders
   ├── status                   # draft / scheduled / published / archived
   ├── scheduled_at             # 予約配信日時（nullable）
-  └── published_at
+  ├── published_at             # nullable
+  ├── created_at
+  └── updated_at
+  # ファイル（PDF/画像）は Active Storage で管理（file_type は content_type から判定）
 ```
 
 ---
