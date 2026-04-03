@@ -1,0 +1,41 @@
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Rails (backend/)
+backend/.bundle/
+backend/log/
+backend/tmp/
+backend/storage/
+backend/public/system/
+backend/public/assets/
+backend/public/packs/
+backend/node_modules/
+backend/config/master.key
+backend/config/credentials/*.key
+backend/coverage/
+backend/.byebug_history
+
+# Frontend (frontend/)
+frontend/node_modules/
+frontend/dist/
+frontend/.nuxt/
+frontend/.next/
+frontend/.vite/
+
+# Docker
+postgres_data/
+redis_data/
+
+# Local Claude settings
+.claude/settings.local.json
