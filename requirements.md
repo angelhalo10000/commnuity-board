@@ -141,6 +141,7 @@ organizations（自治会）
   ├── name
   ├── member_password_digest   # 会員共通パスワード
   ├── leader_password_digest   # 班長共通パスワード
+  ├── admin_password_digest    # 管理者パスワード
   ├── created_at
   └── updated_at
 
@@ -152,17 +153,9 @@ blocks（班）※将来機能用
   ├── created_at
   └── updated_at
 
-admin_users（会長）
-  ├── id                       # UUID7
-  ├── organization_id
-  ├── password_digest
-  ├── created_at
-  └── updated_at
-
 notices（お知らせ）
   ├── id                       # UUID7
   ├── organization_id
-  ├── admin_user_id
   ├── title
   ├── body
   ├── target_type              # all / leaders
@@ -176,7 +169,6 @@ notices（お知らせ）
 circulars（回覧板）
   ├── id                       # UUID7
   ├── organization_id
-  ├── admin_user_id
   ├── title
   ├── target_type              # all / leaders
   ├── status                   # draft / scheduled / published / archived
