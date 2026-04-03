@@ -4,17 +4,20 @@ info:
   version: 1.0.0
 
 servers:
-  - url: /api
+  - url: /api/viewer
+    description: 公開側API（会員・班長向け）
+  - url: /api/admin
+    description: 管理者API
 
 tags:
-  - name: session
+  - name: viewer-session
     description: 公開側認証
+  - name: viewer-notices
+    description: お知らせ（公開側）
+  - name: viewer-circulars
+    description: 回覧板（公開側）
   - name: admin-session
     description: 管理者認証
-  - name: notices
-    description: お知らせ（公開側）
-  - name: circulars
-    description: 回覧板（公開側）
   - name: admin-notices
     description: お知らせ管理
   - name: admin-circulars
@@ -29,9 +32,9 @@ paths:
 
   # ── 公開側認証 ──────────────────────────────
 
-  /session:
+  /viewer/session:
     post:
-      tags: [session]
+      tags: [viewer-session]
       summary: 共通パスワード認証
       description: |
         入力されたパスワードを班長共通PW → 会員共通PW の順で照合し、
@@ -60,11 +63,116 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
     delete:
-      tags: [session]
+      tags: [viewer-session]
       summary: 公開側ログアウト
       responses:
         '204':
           description: ログアウト成功
+
+  # ── お知らせ（公開側） ────────────────────────
+
+  /viewer/notices:
+    get:
+      tags: [viewer-notices]
+      summary: お知らせ一覧・検索
+      description: ログインユーザーのロール（member/leader）に応じてフィルタリング。
+      security:
+        - memberSession: []
+      parameters:
+        - $ref: '#/components/parameters/keyword'
+        - $ref: '#/components/parameters/year'
+        - $ref: '#/components/parameters/month'
+        - $ref: '#/components/parameters/page'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  notices:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/NoticeSummary'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /viewer/notices/{id}:
+    get:
+      tags: [viewer-notices]
+      summary: お知らせ詳細
+      security:
+        - memberSession: []
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoticeDetail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ── 回覧板（公開側） ─────────────────────────
+
+  /viewer/circulars:
+    get:
+      tags: [viewer-circulars]
+      summary: 回覧板一覧・検索
+      security:
+        - memberSession: []
+      parameters:
+        - $ref: '#/components/parameters/keyword'
+        - $ref: '#/components/parameters/year'
+        - $ref: '#/components/parameters/month'
+        - $ref: '#/components/parameters/page'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  circulars:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CircularSummary'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /viewer/circulars/{id}:
+    get:
+      tags: [viewer-circulars]
+      summary: 回覧板詳細
+      security:
+        - memberSession: []
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CircularDetail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
 
   # ── 管理者認証 ──────────────────────────────
 
@@ -135,111 +243,6 @@ paths:
           description: パスワード変更成功
         '422':
           $ref: '#/components/responses/UnprocessableEntity'
-
-  # ── お知らせ（公開側） ────────────────────────���
-
-  /notices:
-    get:
-      tags: [notices]
-      summary: お知らせ一覧・検索
-      description: ログインユーザーのロール（member/leader）に応じてフィルタリング。
-      security:
-        - memberSession: []
-      parameters:
-        - $ref: '#/components/parameters/keyword'
-        - $ref: '#/components/parameters/year'
-        - $ref: '#/components/parameters/month'
-        - $ref: '#/components/parameters/page'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  notices:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/NoticeSummary'
-                  pagination:
-                    $ref: '#/components/schemas/Pagination'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-
-  /notices/{id}:
-    get:
-      tags: [notices]
-      summary: お知らせ詳細
-      security:
-        - memberSession: []
-      parameters:
-        - $ref: '#/components/parameters/id'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/NoticeDetail'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
-
-  # ── 回覧板（公開側） ─────────────────────────
-
-  /circulars:
-    get:
-      tags: [circulars]
-      summary: 回覧板一覧・検索
-      security:
-        - memberSession: []
-      parameters:
-        - $ref: '#/components/parameters/keyword'
-        - $ref: '#/components/parameters/year'
-        - $ref: '#/components/parameters/month'
-        - $ref: '#/components/parameters/page'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  circulars:
-                    type: array
-                    items:
-                      $ref: '#/components/schemas/CircularSummary'
-                  pagination:
-                    $ref: '#/components/schemas/Pagination'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-
-  /circulars/{id}:
-    get:
-      tags: [circulars]
-      summary: 回覧板詳細
-      security:
-        - memberSession: []
-      parameters:
-        - $ref: '#/components/parameters/id'
-      responses:
-        '200':
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/CircularDetail'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
 
   # ── お知らせ管理 ─────────────────────────────
 
@@ -416,6 +419,35 @@ paths:
           $ref: '#/components/responses/UnprocessableEntity'
 
   /admin/circulars/{id}:
+    patch:
+      tags: [admin-circulars]
+      summary: 回覧板ステータス変更（アーカイブ等）
+      description: |
+        ステータスのみ変更可能。コンテンツの編集は削除して作り直す運用。
+        アーカイブ（status: archived）することで公開側から非表示にしつつ管理画面に記録を残せる。
+      security:
+        - adminSession: []
+      parameters:
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CircularStatusInput'
+      responses:
+        '200':
+          description: 更新成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminCircularDetail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
     delete:
       tags: [admin-circulars]
       summary: 回覧板削除
@@ -432,6 +464,25 @@ paths:
           $ref: '#/components/responses/NotFound'
 
   # ── 設定 ────────────────────────────────────
+
+  /admin/settings:
+    get:
+      tags: [admin-settings]
+      summary: 設定情報取得
+      security:
+        - adminSession: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  organization_name:
+                    type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
 
   /admin/settings/member_password:
     patch:
@@ -532,13 +583,13 @@ components:
     memberSession:
       type: apiKey
       in: cookie
-      name: _session_id
-      description: 会員または班長セッション（/api/session で取得）
+      name: _member_session_id
+      description: 会員または班長セッション（POST /api/viewer/session で取得）
     adminSession:
       type: apiKey
       in: cookie
-      name: _session_id
-      description: 管理者セッション（/api/admin/session で取得）
+      name: _admin_session_id
+      description: 管理者セッション（POST /api/admin/session で取得）
 
   parameters:
     id:
@@ -575,6 +626,7 @@ components:
 
     Pagination:
       type: object
+      description: ページネーション情報。1ページあたり10件固定。
       properties:
         current_page:
           type: integer
@@ -697,6 +749,9 @@ components:
         published_at:
           type: string
           format: date-time
+        is_new:
+          type: boolean
+          description: 配信日から30日以内の場合true
 
     CircularDetail:
       allOf:
@@ -759,6 +814,18 @@ components:
         status:
           type: string
           enum: [draft, scheduled, published]
+        scheduled_at:
+          type: string
+          format: date-time
+          description: status が scheduled の場合は必須
+
+    CircularStatusInput:
+      type: object
+      required: [status]
+      properties:
+        status:
+          type: string
+          enum: [draft, scheduled, published, archived]
         scheduled_at:
           type: string
           format: date-time
