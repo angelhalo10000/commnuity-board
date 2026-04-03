@@ -37,5 +37,5 @@ frontend/.vite/
 postgres_data/
 redis_data/
 
-# Local overrides
-*.local.*
+# Local Claude settings
+.claude/settings.local.json
