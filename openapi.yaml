@@ -1,0 +1,823 @@
+openapi: 3.0.3
+info:
+  title: 電子自治会アプリ API
+  version: 1.0.0
+
+servers:
+  - url: /api
+
+tags:
+  - name: session
+    description: 公開側認証
+  - name: admin-session
+    description: 管理者認証
+  - name: notices
+    description: お知らせ（公開側）
+  - name: circulars
+    description: 回覧板（公開側）
+  - name: admin-notices
+    description: お知らせ管理
+  - name: admin-circulars
+    description: 回覧板管理
+  - name: admin-settings
+    description: 設定
+
+# ─────────────────────────────────────────────
+# Paths
+# ─────────────────────────────────────────────
+paths:
+
+  # ── 公開側認証 ──────────────────────────────
+
+  /session:
+    post:
+      tags: [session]
+      summary: 共通パスワード認証
+      description: |
+        入力されたパスワードを班長共通PW → 会員共通PW の順で照合し、
+        一致したロールのセッションCookieを発行する。
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [password]
+              properties:
+                password:
+                  type: string
+      responses:
+        '200':
+          description: 認証成功
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  role:
+                    type: string
+                    enum: [member, leader]
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      tags: [session]
+      summary: 公開側ログアウト
+      responses:
+        '204':
+          description: ログアウト成功
+
+  # ── 管理者認証 ──────────────────────────────
+
+  /admin/session:
+    post:
+      tags: [admin-session]
+      summary: 管理者ログイン
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+      responses:
+        '200':
+          description: ログイン成功
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    delete:
+      tags: [admin-session]
+      summary: 管理者ログアウト
+      responses:
+        '204':
+          description: ログアウト成功
+
+  /admin/password_reset:
+    post:
+      tags: [admin-session]
+      summary: パスワードリセットメール送信
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email]
+              properties:
+                email:
+                  type: string
+                  format: email
+      responses:
+        '204':
+          description: メール送信（アドレス存在有無に関わらず204を返す）
+    patch:
+      tags: [admin-session]
+      summary: 新しいパスワードを設定（メールリンクから）
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [token, password]
+              properties:
+                token:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '204':
+          description: パスワード変更成功
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+
+  # ── お知らせ（公開側） ────────────────────────���
+
+  /notices:
+    get:
+      tags: [notices]
+      summary: お知らせ一覧・検索
+      description: ログインユーザーのロール（member/leader）に応じてフィルタリング。
+      security:
+        - memberSession: []
+      parameters:
+        - $ref: '#/components/parameters/keyword'
+        - $ref: '#/components/parameters/year'
+        - $ref: '#/components/parameters/month'
+        - $ref: '#/components/parameters/page'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  notices:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/NoticeSummary'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /notices/{id}:
+    get:
+      tags: [notices]
+      summary: お知らせ詳細
+      security:
+        - memberSession: []
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoticeDetail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ── 回覧板（公開側） ─────────────────────────
+
+  /circulars:
+    get:
+      tags: [circulars]
+      summary: 回覧板一覧・検索
+      security:
+        - memberSession: []
+      parameters:
+        - $ref: '#/components/parameters/keyword'
+        - $ref: '#/components/parameters/year'
+        - $ref: '#/components/parameters/month'
+        - $ref: '#/components/parameters/page'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  circulars:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CircularSummary'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /circulars/{id}:
+    get:
+      tags: [circulars]
+      summary: 回覧板詳細
+      security:
+        - memberSession: []
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CircularDetail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ── お知らせ管理 ─────────────────────────────
+
+  /admin/notices:
+    get:
+      tags: [admin-notices]
+      summary: お知らせ一覧（管理）
+      security:
+        - adminSession: []
+      parameters:
+        - $ref: '#/components/parameters/keyword'
+        - $ref: '#/components/parameters/year'
+        - $ref: '#/components/parameters/month'
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [draft, scheduled, published, archived]
+        - $ref: '#/components/parameters/page'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  notices:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AdminNoticeSummary'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      tags: [admin-notices]
+      summary: お知らせ作成
+      security:
+        - adminSession: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/NoticeInput'
+      responses:
+        '201':
+          description: 作成成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminNoticeDetail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+
+  /admin/notices/{id}:
+    get:
+      tags: [admin-notices]
+      summary: お知らせ詳細（管理）
+      security:
+        - adminSession: []
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminNoticeDetail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      tags: [admin-notices]
+      summary: お知らせ更新
+      security:
+        - adminSession: []
+      parameters:
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/NoticeInput'
+      responses:
+        '200':
+          description: 更新成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminNoticeDetail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+    delete:
+      tags: [admin-notices]
+      summary: お知らせ削除
+      security:
+        - adminSession: []
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '204':
+          description: 削除成功
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ── 回覧板管理 ──────────────────────────────
+
+  /admin/circulars:
+    get:
+      tags: [admin-circulars]
+      summary: 回覧板一覧（管理）
+      security:
+        - adminSession: []
+      parameters:
+        - $ref: '#/components/parameters/keyword'
+        - $ref: '#/components/parameters/year'
+        - $ref: '#/components/parameters/month'
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [draft, scheduled, published, archived]
+        - $ref: '#/components/parameters/page'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  circulars:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AdminCircularSummary'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      tags: [admin-circulars]
+      summary: 回覧板作成
+      security:
+        - adminSession: []
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CircularInput'
+      responses:
+        '201':
+          description: 作成成功
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdminCircularDetail'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+
+  /admin/circulars/{id}:
+    delete:
+      tags: [admin-circulars]
+      summary: 回覧板削除
+      security:
+        - adminSession: []
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '204':
+          description: 削除成功
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ── 設定 ────────────────────────────────────
+
+  /admin/settings/member_password:
+    patch:
+      tags: [admin-settings]
+      summary: 会員共通パスワード変更
+      security:
+        - adminSession: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SharedPasswordInput'
+      responses:
+        '204':
+          description: 変更成功
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+
+  /admin/settings/leader_password:
+    patch:
+      tags: [admin-settings]
+      summary: 班長共通パスワード変更
+      security:
+        - adminSession: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SharedPasswordInput'
+      responses:
+        '204':
+          description: 変更成功
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+
+  /admin/settings/admin_password:
+    patch:
+      tags: [admin-settings]
+      summary: 管理者パスワード変更
+      security:
+        - adminSession: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [current_password, password]
+              properties:
+                current_password:
+                  type: string
+                password:
+                  type: string
+      responses:
+        '204':
+          description: 変更成功
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+
+  /admin/settings/organization:
+    patch:
+      tags: [admin-settings]
+      summary: 自治会名変更
+      security:
+        - adminSession: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name]
+              properties:
+                name:
+                  type: string
+      responses:
+        '204':
+          description: 変更成功
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+
+# ─────────────────────────────────────────────
+# Components
+# ─────────────────────────────────────────────
+components:
+
+  securitySchemes:
+    memberSession:
+      type: apiKey
+      in: cookie
+      name: _session_id
+      description: 会員または班長セッション（/api/session で取得）
+    adminSession:
+      type: apiKey
+      in: cookie
+      name: _session_id
+      description: 管理者セッション（/api/admin/session で取得）
+
+  parameters:
+    id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    keyword:
+      name: keyword
+      in: query
+      schema:
+        type: string
+    year:
+      name: year
+      in: query
+      schema:
+        type: integer
+    month:
+      name: month
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 12
+    page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        default: 1
+
+  schemas:
+
+    Pagination:
+      type: object
+      properties:
+        current_page:
+          type: integer
+        total_pages:
+          type: integer
+        total_count:
+          type: integer
+
+    NoticeSummary:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        target_type:
+          type: string
+          enum: [all, leaders]
+        published_at:
+          type: string
+          format: date-time
+        is_new:
+          type: boolean
+          description: 配信日から30日以内の場合true
+
+    NoticeDetail:
+      allOf:
+        - $ref: '#/components/schemas/NoticeSummary'
+        - type: object
+          properties:
+            body:
+              type: string
+            attachments:
+              type: array
+              items:
+                $ref: '#/components/schemas/Attachment'
+            updated_at:
+              type: string
+              format: date-time
+
+    AdminNoticeSummary:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        target_type:
+          type: string
+          enum: [all, leaders]
+        status:
+          type: string
+          enum: [draft, scheduled, published, archived]
+        scheduled_at:
+          type: string
+          format: date-time
+          nullable: true
+        published_at:
+          type: string
+          format: date-time
+          nullable: true
+
+    AdminNoticeDetail:
+      allOf:
+        - $ref: '#/components/schemas/AdminNoticeSummary'
+        - type: object
+          properties:
+            body:
+              type: string
+            attachments:
+              type: array
+              items:
+                $ref: '#/components/schemas/Attachment'
+            created_at:
+              type: string
+              format: date-time
+            updated_at:
+              type: string
+              format: date-time
+
+    NoticeInput:
+      type: object
+      required: [title, body, target_type, status]
+      properties:
+        title:
+          type: string
+        body:
+          type: string
+        target_type:
+          type: string
+          enum: [all, leaders]
+        status:
+          type: string
+          enum: [draft, scheduled, published]
+        scheduled_at:
+          type: string
+          format: date-time
+          description: status が scheduled の場合は必須
+        attachments[]:
+          type: array
+          items:
+            type: string
+            format: binary
+        remove_attachment_ids[]:
+          type: array
+          items:
+            type: integer
+          description: 削除する添付ファイルのID
+
+    CircularSummary:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        target_type:
+          type: string
+          enum: [all, leaders]
+        published_at:
+          type: string
+          format: date-time
+
+    CircularDetail:
+      allOf:
+        - $ref: '#/components/schemas/CircularSummary'
+        - type: object
+          properties:
+            file_url:
+              type: string
+              format: uri
+            file_type:
+              type: string
+              enum: [pdf, image]
+
+    AdminCircularSummary:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        target_type:
+          type: string
+          enum: [all, leaders]
+        status:
+          type: string
+          enum: [draft, scheduled, published, archived]
+        scheduled_at:
+          type: string
+          format: date-time
+          nullable: true
+        published_at:
+          type: string
+          format: date-time
+          nullable: true
+
+    AdminCircularDetail:
+      allOf:
+        - $ref: '#/components/schemas/AdminCircularSummary'
+        - type: object
+          properties:
+            file_url:
+              type: string
+              format: uri
+            file_type:
+              type: string
+              enum: [pdf, image]
+
+    CircularInput:
+      type: object
+      required: [title, file, target_type, status]
+      properties:
+        title:
+          type: string
+        file:
+          type: string
+          format: binary
+        target_type:
+          type: string
+          enum: [all, leaders]
+        status:
+          type: string
+          enum: [draft, scheduled, published]
+        scheduled_at:
+          type: string
+          format: date-time
+          description: status が scheduled の場合は必須
+
+    SharedPasswordInput:
+      type: object
+      required: [current_password, password]
+      properties:
+        current_password:
+          type: string
+        password:
+          type: string
+
+    Attachment:
+      type: object
+      properties:
+        id:
+          type: integer
+        file_url:
+          type: string
+          format: uri
+        filename:
+          type: string
+        content_type:
+          type: string
+        byte_size:
+          type: integer
+
+    Error:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: string
+
+  responses:
+    Unauthorized:
+      description: 認証されていない
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: 権限がない（班長向けコンテンツへの会員アクセス等）
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: リソースが存在しない
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnprocessableEntity:
+      description: バリデーションエラー
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'

@@ -63,6 +63,7 @@
 
 #### 回覧板
 - トップページに最新回覧板一覧を表示
+- 回覧板一覧・検索（キーワード、年月での絞り込み）
 - 回覧板詳細を閲覧（PDF/画像のインラインビューア）
 
 ### 3.2 管理側（会長ログイン後）
@@ -78,10 +79,13 @@
 
 #### 回覧板管理
 - 回覧板作成（タイトル・PDF/画像アップロード・配信対象：全員 or 班長のみ）
+- 下書き保存・予約配信
 - 回覧板削除
 
 #### 設定
 - 会員共通パスワード・班長共通パスワードの変更（両者は異なる値でなければならない）
+- 管理者パスワードの変更
+- 自治会名の変更
 
 ---
 
@@ -112,7 +116,10 @@
   └── /circulars/:id    回覧板詳細
 
 [会長管理画面]
-  ├── /admin/login              ログイン
+  ├── /admin/login                        ログイン
+  ├── /admin/password_reset               パスワードリセット（メール入力）
+  ├── /admin/password_reset/sent          送信完了
+  ├── /admin/password_reset/edit?token=…  新しいパスワード設定（メールリンク）
   ├── /admin/                   ダッシュボード
   ├── /admin/notices            お知らせ一覧
   ├── /admin/notices/new        お知らせ作成
@@ -130,9 +137,10 @@
 organizations（自治会）
   ├── id
   ├── name
-  └── member_password_digest   # 共通パスワード
+  ├── member_password_digest   # 会員共通パスワード
+  └── leader_password_digest   # 班長共通パスワード
 
-blocks（班）
+blocks（班）※将来機能用
   ├── id
   ├── organization_id
   ├── name
@@ -150,16 +158,12 @@ notices（お知らせ）
   ├── admin_user_id
   ├── title
   ├── body
-  ├── target_type              # all / blocks
+  ├── target_type              # all / leaders
   ├── status                   # draft / scheduled / published / archived
   ├── scheduled_at             # 予約投稿日時（nullable）
   ├── created_at               # 作成日時
-  └── updated_at               # 更新日時（編集時に自動更新）
+  ├── updated_at               # 更新日時（編集時に自動更新）
   └── published_at
-
-notice_targets（配信対象班）
-  ├── notice_id
-  └── block_id
 
 notice_attachments（添付ファイル）
   ├── id
@@ -173,12 +177,10 @@ circulars（回覧板）
   ├── title
   ├── file_url
   ├── file_type                # pdf / image
-  ├── target_type              # all / blocks
-  └── status                   # published / closed
-
-circular_targets（配信対象班）
-  ├── circular_id
-  └── block_id
+  ├── target_type              # all / leaders
+  ├── status                   # draft / scheduled / published / archived
+  ├── scheduled_at             # 予約配信日時（nullable）
+  └── published_at
 ```
 
 ---
@@ -186,15 +188,15 @@ circular_targets（配信対象班）
 ## 7. MVP スコープ
 
 ### MVP（初回リリース）
-- [ ] 共通パスワード認証
+- [ ] 共通パスワード認証（会員・班長の2段階）
 - [ ] 会長ログイン・ログアウト
-- [ ] お知らせ作成・編集・削除・一覧・詳細
+- [ ] お知らせ作成・編集・削除・一覧・詳細（予約投稿含む）
 - [ ] 回覧板作成・削除・一覧・詳細
 - [ ] お知らせ検索（日付・月・年・キーワード全文検索）
+- [ ] 設定（会員共通PW・班長共通PW変更）
 
 ### 将来機能（v2以降）
 - 配信対象班の絞り込み表示
-- お知らせ予約配信
 - コメント・意見投稿
 - アンケート機能
 - 施設予約・イベントカレンダー
@@ -207,6 +209,6 @@ circular_targets（配信対象班）
 | 用語 | 説明 |
 |------|------|
 | 班 | 自治会を構成する小単位。8班編成 |
-| 班長 | 各班の取りまとめ役。本システムでは会員と同じ権限 |
+| 班長 | 各班の取りまとめ役。班長共通PWでログインすると班長向けコンテンツも閲覧可能 |
 | 回覧板 | 行政・自治会からの通知文書。PDF/画像で運用 |
 | お知らせ | 会長から会員へ配信するメッセージ |
