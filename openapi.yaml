@@ -4,10 +4,7 @@ info:
   version: 1.0.0
 
 servers:
-  - url: /api/viewer
-    description: 公開側API（会員・班長向け）
-  - url: /api/admin
-    description: 管理者API
+  - url: /api
 
 tags:
   - name: viewer-session
@@ -29,7 +26,6 @@ tags:
 # Paths
 # ─────────────────────────────────────────────
 paths:
-
   # ── 公開側認証 ──────────────────────────────
 
   /viewer/session:
@@ -50,7 +46,7 @@ paths:
                 password:
                   type: string
       responses:
-        '200':
+        "200":
           description: 認証成功
           content:
             application/json:
@@ -60,13 +56,13 @@ paths:
                   role:
                     type: string
                     enum: [member, leader]
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+        "401":
+          $ref: "#/components/responses/Unauthorized"
     delete:
       tags: [viewer-session]
       summary: 公開側ログアウト
       responses:
-        '204':
+        "204":
           description: ログアウト成功
 
   # ── お知らせ（公開側） ────────────────────────
@@ -79,12 +75,12 @@ paths:
       security:
         - memberSession: []
       parameters:
-        - $ref: '#/components/parameters/keyword'
-        - $ref: '#/components/parameters/year'
-        - $ref: '#/components/parameters/month'
-        - $ref: '#/components/parameters/page'
+        - $ref: "#/components/parameters/keyword"
+        - $ref: "#/components/parameters/year"
+        - $ref: "#/components/parameters/month"
+        - $ref: "#/components/parameters/page"
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
@@ -94,11 +90,11 @@ paths:
                   notices:
                     type: array
                     items:
-                      $ref: '#/components/schemas/NoticeSummary'
+                      $ref: "#/components/schemas/NoticeSummary"
                   pagination:
-                    $ref: '#/components/schemas/Pagination'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+                    $ref: "#/components/schemas/Pagination"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
 
   /viewer/notices/{id}:
     get:
@@ -107,20 +103,20 @@ paths:
       security:
         - memberSession: []
       parameters:
-        - $ref: '#/components/parameters/id'
+        - $ref: "#/components/parameters/id"
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/NoticeDetail'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
+                $ref: "#/components/schemas/NoticeDetail"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
 
   # ── 回覧板（公開側） ─────────────────────────
 
@@ -131,12 +127,12 @@ paths:
       security:
         - memberSession: []
       parameters:
-        - $ref: '#/components/parameters/keyword'
-        - $ref: '#/components/parameters/year'
-        - $ref: '#/components/parameters/month'
-        - $ref: '#/components/parameters/page'
+        - $ref: "#/components/parameters/keyword"
+        - $ref: "#/components/parameters/year"
+        - $ref: "#/components/parameters/month"
+        - $ref: "#/components/parameters/page"
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
@@ -146,11 +142,11 @@ paths:
                   circulars:
                     type: array
                     items:
-                      $ref: '#/components/schemas/CircularSummary'
+                      $ref: "#/components/schemas/CircularSummary"
                   pagination:
-                    $ref: '#/components/schemas/Pagination'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+                    $ref: "#/components/schemas/Pagination"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
 
   /viewer/circulars/{id}:
     get:
@@ -159,20 +155,20 @@ paths:
       security:
         - memberSession: []
       parameters:
-        - $ref: '#/components/parameters/id'
+        - $ref: "#/components/parameters/id"
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/CircularDetail'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '403':
-          $ref: '#/components/responses/Forbidden'
-        '404':
-          $ref: '#/components/responses/NotFound'
+                $ref: "#/components/schemas/CircularDetail"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "404":
+          $ref: "#/components/responses/NotFound"
 
   # ── 管理者認証 ──────────────────────────────
 
@@ -194,15 +190,15 @@ paths:
                 password:
                   type: string
       responses:
-        '200':
+        "200":
           description: ログイン成功
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+        "401":
+          $ref: "#/components/responses/Unauthorized"
     delete:
       tags: [admin-session]
       summary: 管理者ログアウト
       responses:
-        '204':
+        "204":
           description: ログアウト成功
 
   /admin/password_reset:
@@ -221,7 +217,7 @@ paths:
                   type: string
                   format: email
       responses:
-        '204':
+        "204":
           description: メール送信（アドレス存在有無に関わらず204を返す）
     patch:
       tags: [admin-session]
@@ -239,10 +235,10 @@ paths:
                 password:
                   type: string
       responses:
-        '204':
+        "204":
           description: パスワード変更成功
-        '422':
-          $ref: '#/components/responses/UnprocessableEntity'
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
 
   # ── お知らせ管理 ─────────────────────────────
 
@@ -253,17 +249,17 @@ paths:
       security:
         - adminSession: []
       parameters:
-        - $ref: '#/components/parameters/keyword'
-        - $ref: '#/components/parameters/year'
-        - $ref: '#/components/parameters/month'
+        - $ref: "#/components/parameters/keyword"
+        - $ref: "#/components/parameters/year"
+        - $ref: "#/components/parameters/month"
         - name: status
           in: query
           schema:
             type: string
             enum: [draft, scheduled, published, archived]
-        - $ref: '#/components/parameters/page'
+        - $ref: "#/components/parameters/page"
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
@@ -273,11 +269,11 @@ paths:
                   notices:
                     type: array
                     items:
-                      $ref: '#/components/schemas/AdminNoticeSummary'
+                      $ref: "#/components/schemas/AdminNoticeSummary"
                   pagination:
-                    $ref: '#/components/schemas/Pagination'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+                    $ref: "#/components/schemas/Pagination"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
     post:
       tags: [admin-notices]
       summary: お知らせ作成
@@ -288,18 +284,18 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/NoticeInput'
+              $ref: "#/components/schemas/NoticeInput"
       responses:
-        '201':
+        "201":
           description: 作成成功
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AdminNoticeDetail'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '422':
-          $ref: '#/components/responses/UnprocessableEntity'
+                $ref: "#/components/schemas/AdminNoticeDetail"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
 
   /admin/notices/{id}:
     get:
@@ -308,58 +304,58 @@ paths:
       security:
         - adminSession: []
       parameters:
-        - $ref: '#/components/parameters/id'
+        - $ref: "#/components/parameters/id"
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AdminNoticeDetail'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
+                $ref: "#/components/schemas/AdminNoticeDetail"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
     patch:
       tags: [admin-notices]
       summary: お知らせ更新
       security:
         - adminSession: []
       parameters:
-        - $ref: '#/components/parameters/id'
+        - $ref: "#/components/parameters/id"
       requestBody:
         required: true
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/NoticeInput'
+              $ref: "#/components/schemas/NoticeInput"
       responses:
-        '200':
+        "200":
           description: 更新成功
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AdminNoticeDetail'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '422':
-          $ref: '#/components/responses/UnprocessableEntity'
+                $ref: "#/components/schemas/AdminNoticeDetail"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
     delete:
       tags: [admin-notices]
       summary: お知らせ削除
       security:
         - adminSession: []
       parameters:
-        - $ref: '#/components/parameters/id'
+        - $ref: "#/components/parameters/id"
       responses:
-        '204':
+        "204":
           description: 削除成功
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
 
   # ── 回覧板管理 ──────────────────────────────
 
@@ -370,17 +366,17 @@ paths:
       security:
         - adminSession: []
       parameters:
-        - $ref: '#/components/parameters/keyword'
-        - $ref: '#/components/parameters/year'
-        - $ref: '#/components/parameters/month'
+        - $ref: "#/components/parameters/keyword"
+        - $ref: "#/components/parameters/year"
+        - $ref: "#/components/parameters/month"
         - name: status
           in: query
           schema:
             type: string
             enum: [draft, scheduled, published, archived]
-        - $ref: '#/components/parameters/page'
+        - $ref: "#/components/parameters/page"
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
@@ -390,11 +386,11 @@ paths:
                   circulars:
                     type: array
                     items:
-                      $ref: '#/components/schemas/AdminCircularSummary'
+                      $ref: "#/components/schemas/AdminCircularSummary"
                   pagination:
-                    $ref: '#/components/schemas/Pagination'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+                    $ref: "#/components/schemas/Pagination"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
     post:
       tags: [admin-circulars]
       summary: 回覧板作成
@@ -405,18 +401,18 @@ paths:
         content:
           multipart/form-data:
             schema:
-              $ref: '#/components/schemas/CircularInput'
+              $ref: "#/components/schemas/CircularInput"
       responses:
-        '201':
+        "201":
           description: 作成成功
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AdminCircularDetail'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '422':
-          $ref: '#/components/responses/UnprocessableEntity'
+                $ref: "#/components/schemas/AdminCircularDetail"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
 
   /admin/circulars/{id}:
     patch:
@@ -428,40 +424,40 @@ paths:
       security:
         - adminSession: []
       parameters:
-        - $ref: '#/components/parameters/id'
+        - $ref: "#/components/parameters/id"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CircularStatusInput'
+              $ref: "#/components/schemas/CircularStatusInput"
       responses:
-        '200':
+        "200":
           description: 更新成功
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AdminCircularDetail'
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
-        '422':
-          $ref: '#/components/responses/UnprocessableEntity'
+                $ref: "#/components/schemas/AdminCircularDetail"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
     delete:
       tags: [admin-circulars]
       summary: 回覧板削除
       security:
         - adminSession: []
       parameters:
-        - $ref: '#/components/parameters/id'
+        - $ref: "#/components/parameters/id"
       responses:
-        '204':
+        "204":
           description: 削除成功
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '404':
-          $ref: '#/components/responses/NotFound'
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
 
   # ── 設定 ────────────────────────────────────
 
@@ -472,7 +468,7 @@ paths:
       security:
         - adminSession: []
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
@@ -481,8 +477,8 @@ paths:
                 properties:
                   organization_name:
                     type: string
-        '401':
-          $ref: '#/components/responses/Unauthorized'
+        "401":
+          $ref: "#/components/responses/Unauthorized"
 
   /admin/settings/member_password:
     patch:
@@ -495,14 +491,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SharedPasswordInput'
+              $ref: "#/components/schemas/SharedPasswordInput"
       responses:
-        '204':
+        "204":
           description: 変更成功
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '422':
-          $ref: '#/components/responses/UnprocessableEntity'
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
 
   /admin/settings/leader_password:
     patch:
@@ -515,14 +511,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/SharedPasswordInput'
+              $ref: "#/components/schemas/SharedPasswordInput"
       responses:
-        '204':
+        "204":
           description: 変更成功
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '422':
-          $ref: '#/components/responses/UnprocessableEntity'
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
 
   /admin/settings/admin_password:
     patch:
@@ -543,12 +539,12 @@ paths:
                 password:
                   type: string
       responses:
-        '204':
+        "204":
           description: 変更成功
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '422':
-          $ref: '#/components/responses/UnprocessableEntity'
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
 
   /admin/settings/organization:
     patch:
@@ -567,18 +563,17 @@ paths:
                 name:
                   type: string
       responses:
-        '204':
+        "204":
           description: 変更成功
-        '401':
-          $ref: '#/components/responses/Unauthorized'
-        '422':
-          $ref: '#/components/responses/UnprocessableEntity'
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "422":
+          $ref: "#/components/responses/UnprocessableEntity"
 
 # ─────────────────────────────────────────────
 # Components
 # ─────────────────────────────────────────────
 components:
-
   securitySchemes:
     memberSession:
       type: apiKey
@@ -624,7 +619,6 @@ components:
         default: 1
 
   schemas:
-
     Pagination:
       type: object
       description: ページネーション情報。1ページあたり10件固定。
@@ -656,7 +650,7 @@ components:
 
     NoticeDetail:
       allOf:
-        - $ref: '#/components/schemas/NoticeSummary'
+        - $ref: "#/components/schemas/NoticeSummary"
         - type: object
           properties:
             body:
@@ -664,7 +658,7 @@ components:
             attachments:
               type: array
               items:
-                $ref: '#/components/schemas/Attachment'
+                $ref: "#/components/schemas/Attachment"
             updated_at:
               type: string
               format: date-time
@@ -694,7 +688,7 @@ components:
 
     AdminNoticeDetail:
       allOf:
-        - $ref: '#/components/schemas/AdminNoticeSummary'
+        - $ref: "#/components/schemas/AdminNoticeSummary"
         - type: object
           properties:
             body:
@@ -702,7 +696,7 @@ components:
             attachments:
               type: array
               items:
-                $ref: '#/components/schemas/Attachment'
+                $ref: "#/components/schemas/Attachment"
             created_at:
               type: string
               format: date-time
@@ -760,7 +754,7 @@ components:
 
     CircularDetail:
       allOf:
-        - $ref: '#/components/schemas/CircularSummary'
+        - $ref: "#/components/schemas/CircularSummary"
         - type: object
           properties:
             file_url:
@@ -795,7 +789,7 @@ components:
 
     AdminCircularDetail:
       allOf:
-        - $ref: '#/components/schemas/AdminCircularSummary'
+        - $ref: "#/components/schemas/AdminCircularSummary"
         - type: object
           properties:
             file_url:
@@ -876,22 +870,22 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: "#/components/schemas/Error"
     Forbidden:
       description: 権限がない（班長向けコンテンツへの会員アクセス等）
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: "#/components/schemas/Error"
     NotFound:
       description: リソースが存在しない
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: "#/components/schemas/Error"
     UnprocessableEntity:
       description: バリデーションエラー
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/Error'
+            $ref: "#/components/schemas/Error"
