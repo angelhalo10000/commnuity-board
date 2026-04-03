@@ -597,7 +597,8 @@ components:
       in: path
       required: true
       schema:
-        type: integer
+        type: string
+        format: uuid
     keyword:
       name: keyword
       in: query
@@ -639,7 +640,8 @@ components:
       type: object
       properties:
         id:
-          type: integer
+          type: string
+          format: uuid
         title:
           type: string
         target_type:
@@ -671,7 +673,8 @@ components:
       type: object
       properties:
         id:
-          type: integer
+          type: string
+          format: uuid
         title:
           type: string
         target_type:
@@ -733,14 +736,16 @@ components:
         remove_attachment_ids[]:
           type: array
           items:
-            type: integer
+            type: string
+            format: uuid
           description: 削除する添付ファイルのID
 
     CircularSummary:
       type: object
       properties:
         id:
-          type: integer
+          type: string
+          format: uuid
         title:
           type: string
         target_type:
@@ -769,7 +774,8 @@ components:
       type: object
       properties:
         id:
-          type: integer
+          type: string
+          format: uuid
         title:
           type: string
         target_type:
@@ -844,7 +850,8 @@ components:
       type: object
       properties:
         id:
-          type: integer
+          type: string
+          format: uuid
         file_url:
           type: string
           format: uri
