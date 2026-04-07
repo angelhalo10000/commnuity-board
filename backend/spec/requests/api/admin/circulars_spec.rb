@@ -26,7 +26,7 @@ RSpec.describe "Api::Admin::Circulars", type: :request do
       end
 
       it "statusフィルタが機能する" do
-        get api_admin_circulars_path, params: { status: "draft" }, as: :json
+        get api_admin_circulars_path, params: { status: "draft" }
         json = response.parsed_body
         titles = json["circulars"].map { |c| c["title"] }
         expect(titles).to include("下書き回覧")
@@ -34,7 +34,7 @@ RSpec.describe "Api::Admin::Circulars", type: :request do
       end
 
       it "keywordフィルタが機能する" do
-        get api_admin_circulars_path, params: { keyword: "公開" }, as: :json
+        get api_admin_circulars_path, params: { keyword: "公開" }
         expect(response.parsed_body["circulars"].size).to eq(1)
       end
     end
