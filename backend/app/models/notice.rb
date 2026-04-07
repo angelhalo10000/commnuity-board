@@ -3,7 +3,7 @@ class Notice < ApplicationRecord
 
   has_many_attached :attachments
 
-  enum :target_type, { all: "all", leaders: "leaders" }, prefix: false
+  enum :target_type, { all: "all", leaders: "leaders" }, prefix: :target
   enum :status, { draft: "draft", scheduled: "scheduled", published: "published", archived: "archived" }, prefix: false
 
   validates :title, presence: true

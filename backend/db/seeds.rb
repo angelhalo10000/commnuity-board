@@ -1,9 +1,16 @@
-# This file should ensure the existence of records required to run the application in every environment (production,
-# development, test). The code here should be idempotent so that it can be executed at any point in every environment.
-# The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
-#
-# Example:
-#
-#   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
-#     MovieGenre.find_or_create_by!(name: genre_name)
-#   end
+# 冪等性を保つ: 既存レコードがあればスキップ
+if Organization.exists?
+  puts "Organization already exists. Skipping seed."
+else
+  org = Organization.create!(
+    name:            ENV.fetch("SEED_ORG_NAME",       "○○自治会"),
+    member_password: ENV.fetch("SEED_MEMBER_PASSWORD", "member1234"),
+    leader_password: ENV.fetch("SEED_LEADER_PASSWORD", "leader1234"),
+    admin_password:  ENV.fetch("SEED_ADMIN_PASSWORD",  "admin1234")
+  )
+  puts "Created organization: #{org.name} (id: #{org.id})"
+  puts "  member_password : #{ENV.fetch('SEED_MEMBER_PASSWORD', 'member1234')}"
+  puts "  leader_password : #{ENV.fetch('SEED_LEADER_PASSWORD', 'leader1234')}"
+  puts "  admin_password  : #{ENV.fetch('SEED_ADMIN_PASSWORD',  'admin1234')}"
+  puts "  ⚠️  Please change all passwords immediately in production."
+end

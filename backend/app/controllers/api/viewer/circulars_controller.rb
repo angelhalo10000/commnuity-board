@@ -17,7 +17,7 @@ module Api
       def show
         circular = current_organization.circulars.published.find(params[:id])
 
-        unless leader? || circular.all?
+        unless leader? || circular.target_all?
           return render_errors([ "アクセス権限がありません" ], status: :forbidden)
         end
 

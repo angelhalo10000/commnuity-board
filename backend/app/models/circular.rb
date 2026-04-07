@@ -3,7 +3,7 @@ class Circular < ApplicationRecord
 
   has_one_attached :file
 
-  enum :target_type, { all: "all", leaders: "leaders" }, prefix: false
+  enum :target_type, { all: "all", leaders: "leaders" }, prefix: :target
   enum :status, { draft: "draft", scheduled: "scheduled", published: "published", archived: "archived" }, prefix: false
 
   validates :title, presence: true

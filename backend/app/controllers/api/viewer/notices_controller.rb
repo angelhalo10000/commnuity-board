@@ -17,7 +17,7 @@ module Api
       def show
         notice = current_organization.notices.published.find(params[:id])
 
-        unless leader? || notice.all?
+        unless leader? || notice.target_all?
           return render_errors([ "アクセス権限がありません" ], status: :forbidden)
         end
 
