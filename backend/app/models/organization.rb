@@ -13,24 +13,23 @@ class Organization < ApplicationRecord
   private
 
   def passwords_must_differ
-    # Both virtual attributes set (e.g., initial setup)
-    if member_password.present? && leader_password.present?
-      errors.add(:leader_password, "は会員パスワードと異なる値にしてください") if member_password == leader_password
-      return
-    end
+    new_passwords = {
+      admin: admin_password,
+      leader: leader_password,
+      member: member_password
+    }
 
-    # New member_password against existing leader digest
-    if member_password.present? && leader_password_digest.present?
-      if BCrypt::Password.new(leader_password_digest) == member_password
-        errors.add(:member_password, "は班長パスワードと異なる値にしてください")
+    new_passwords.compact.each do |role, password|
+      new_passwords.keys.excluding(role).each do |other_role|
+        if authenticate(password, other_role)
+          errors.add(:base, 'パスワードは変更できせませんでした再設定してください')
+          return
+        end
       end
     end
+  end
 
-    # New leader_password against existing member digest
-    if leader_password.present? && member_password_digest.present?
-      if BCrypt::Password.new(member_password_digest) == leader_password
-        errors.add(:leader_password, "は会員パスワードと異なる値にしてください")
-      end
-    end
+  def authenticate(password, role)
+    public_send(:"authenticate_#{role}_password", password)
   end
 end

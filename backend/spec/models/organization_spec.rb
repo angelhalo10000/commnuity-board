@@ -16,7 +16,7 @@ RSpec.describe Organization, type: :model do
     it "会員パスワードと班長パスワードが同じだと無効" do
       org = build(:organization, member_password: "same", leader_password: "same")
       expect(org).not_to be_valid
-      expect(org.errors[:leader_password]).to be_present
+      expect(org.errors[:base]).to be_present
     end
   end
 
@@ -50,13 +50,13 @@ RSpec.describe Organization, type: :model do
     it "会員パスワードを班長パスワードと同じ値に変更すると無効" do
       org.member_password = "leader_pass"
       expect(org).not_to be_valid
-      expect(org.errors[:member_password]).to be_present
+      expect(org.errors[:base]).to be_present
     end
 
     it "班長パスワードを会員パスワードと同じ値に変更すると無効" do
       org.leader_password = "member_pass"
       expect(org).not_to be_valid
-      expect(org.errors[:leader_password]).to be_present
+      expect(org.errors[:base]).to be_present
     end
   end
 end
