@@ -26,14 +26,14 @@ RSpec.describe "Api::Admin::Notices", type: :request do
       end
 
       it "statusフィルタが機能する" do
-        get api_admin_notices_path, params: { status: "published" }, as: :json
+        get api_admin_notices_path, params: { status: "published" }
         json = response.parsed_body
         expect(json["notices"].map { |n| n["title"] }).to include("公開記事")
         expect(json["notices"].map { |n| n["title"] }).not_to include("下書き記事")
       end
 
       it "keywordフィルタが機能する" do
-        get api_admin_notices_path, params: { keyword: "公開" }, as: :json
+        get api_admin_notices_path, params: { keyword: "公開" }
         json = response.parsed_body
         expect(json["notices"].size).to eq(1)
         expect(json["notices"].first["title"]).to eq("公開記事")

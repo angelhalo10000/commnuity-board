@@ -47,6 +47,9 @@ module Api
       end
 
       def circular_detail(circular)
+        summary = circular_summary(circular)
+        return summary if circular.file.blank?
+
         blob = circular.file.blob
         file_type = blob.content_type.start_with?("image/") ? "image" : "pdf"
 
