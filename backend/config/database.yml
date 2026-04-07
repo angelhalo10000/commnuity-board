@@ -6,6 +6,9 @@ default: &default
 
 development:
   <<: *default
+  host: db
+  username: app
+  password: password
   database: app_development
 
 test:
