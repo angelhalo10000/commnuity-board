@@ -1,6 +1,15 @@
 module Api
   module Viewer
     class SessionsController < Api::BaseController
+      def show
+        role = session[:viewer_role]
+        if role.present?
+          render json: { role: role }
+        else
+          head :unauthorized
+        end
+      end
+
       def create
         org = current_organization
         password = params[:password].to_s

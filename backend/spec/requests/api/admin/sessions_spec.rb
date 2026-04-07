@@ -3,6 +3,24 @@ require "rails_helper"
 RSpec.describe "Api::Admin::Sessions", type: :request do
   let!(:org) { create(:organization) }
 
+  describe "GET /api/admin/session" do
+    context "認証済みの場合" do
+      before { sign_in_as_admin }
+
+      it "200を返す" do
+        get api_admin_session_path, as: :json
+        expect(response).to have_http_status(:ok)
+      end
+    end
+
+    context "未認証の場合" do
+      it "401を返す" do
+        get api_admin_session_path, as: :json
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
+
   describe "POST /api/admin/session" do
     context "正しいパスワードの場合" do
       it "200を返す" do

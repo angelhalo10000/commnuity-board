@@ -19,12 +19,14 @@ import CircularFormPage from './pages/admin/CircularFormPage'
 import SettingsPage from './pages/admin/SettingsPage'
 
 function RequireViewer({ children }: { children: React.ReactElement }) {
-  const { viewerRole } = useAuth()
+  const { viewerRole, ready } = useAuth()
+  if (!ready) return null
   return viewerRole ? children : <Navigate to="/enter" replace />
 }
 
 function RequireAdmin({ children }: { children: React.ReactElement }) {
-  const { isAdmin } = useAuth()
+  const { isAdmin, ready } = useAuth()
+  if (!ready) return null
   return isAdmin ? children : <Navigate to="/admin/login" replace />
 }
 

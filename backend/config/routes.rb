@@ -3,13 +3,13 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :viewer do
-      resource :session, only: [ :create, :destroy ]
+      resource :session, only: [ :show, :create, :destroy ]
       resources :notices, only: [ :index, :show ]
       resources :circulars, only: [ :index, :show ]
     end
 
     namespace :admin do
-      resource :session, only: [ :create, :destroy ]
+      resource :session, only: [ :show, :create, :destroy ]
       resources :notices
       resources :circulars, only: [ :index, :create, :update, :destroy ]
       resource :settings, only: [ :show ] do

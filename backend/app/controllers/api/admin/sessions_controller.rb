@@ -1,6 +1,14 @@
 module Api
   module Admin
     class SessionsController < Api::BaseController
+      def show
+        if session[:admin_authenticated]
+          head :ok
+        else
+          head :unauthorized
+        end
+      end
+
       def create
         org = current_organization
         if org.authenticate_admin_password(params[:password].to_s)

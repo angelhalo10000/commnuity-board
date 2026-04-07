@@ -3,6 +3,25 @@ require "rails_helper"
 RSpec.describe "Api::Viewer::Sessions", type: :request do
   let!(:org) { create(:organization) }
 
+  describe "GET /api/viewer/session" do
+    context "会員としてログイン済みの場合" do
+      before { sign_in_as_viewer }
+
+      it "200とroleを返す" do
+        get api_viewer_session_path, as: :json
+        expect(response).to have_http_status(:ok)
+        expect(response.parsed_body["role"]).to eq("member")
+      end
+    end
+
+    context "未認証の場合" do
+      it "401を返す" do
+        get api_viewer_session_path, as: :json
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
+
   describe "POST /api/viewer/session" do
     context "会員パスワードの場合" do
       it "200とrole=memberを返す" do

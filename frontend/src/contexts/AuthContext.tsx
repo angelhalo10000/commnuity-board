@@ -1,10 +1,13 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useEffect, useState } from 'react'
 import type { ReactNode } from 'react'
 import type { ViewerRole } from '../types'
+import { adminApi } from '../api/admin'
+import { viewerApi } from '../api/viewer'
 
 interface AuthState {
   viewerRole: ViewerRole | null
   isAdmin: boolean
+  ready: boolean
 }
 
 interface AuthContextType extends AuthState {
@@ -17,9 +20,17 @@ const AuthContext = createContext<AuthContextType | null>(null)
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [viewerRole, setViewerRole] = useState<ViewerRole | null>(null)
   const [isAdmin, setIsAdmin] = useState(false)
+  const [ready, setReady] = useState(false)
+
+  useEffect(() => {
+    Promise.all([
+      adminApi.getSession().then(() => setIsAdmin(true)).catch(() => {}),
+      viewerApi.getSession().then(r => setViewerRole(r.data.role)).catch(() => {}),
+    ]).finally(() => setReady(true))
+  }, [])
 
   return (
-    <AuthContext.Provider value={{ viewerRole, isAdmin, setViewerRole, setIsAdmin }}>
+    <AuthContext.Provider value={{ viewerRole, isAdmin, ready, setViewerRole, setIsAdmin }}>
       {children}
     </AuthContext.Provider>
   )
