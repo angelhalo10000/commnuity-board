@@ -9,9 +9,13 @@ export default function CircularFormPage() {
   const [targetType, setTargetType] = useState<'all' | 'leaders'>('all')
   const [status, setStatus] = useState<'draft' | 'scheduled' | 'published'>('draft')
   const [scheduledAt, setScheduledAt] = useState('')
-  const [file, setFile] = useState<File | null>(null)
+  const [files, setFiles] = useState<File[]>([])
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+
+  function handleFileChange(e: ChangeEvent<HTMLInputElement>) {
+    setFiles(Array.from(e.target.files ?? []))
+  }
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault()
@@ -23,7 +27,7 @@ export default function CircularFormPage() {
     fd.append('target_type', targetType)
     fd.append('status', status)
     if (status === 'scheduled' && scheduledAt) fd.append('scheduled_at', scheduledAt)
-    if (file) fd.append('file', file)
+    files.forEach(f => fd.append('files[]', f))
 
     try {
       await adminApi.createCircular(fd)
@@ -73,12 +77,15 @@ export default function CircularFormPage() {
             </div>
           )}
           <div className="form-group">
-            <label className="form-label">ファイル（PDF/画像）<span className="required">*</span></label>
-            <div className="file-upload" onClick={() => document.getElementById('circular-file')?.click()}>
-              {file ? <span>📎 {file.name}</span> : <span>クリックしてファイルを選択（PDF/JPG/PNG、最大10MB）</span>}
+            <label className="form-label">ファイル（PDF/画像、複数可）</label>
+            <div className="file-upload" onClick={() => document.getElementById('circular-files')?.click()}>
+              {files.length > 0
+                ? <span>{files.map(f => f.name).join(', ')}</span>
+                : <span>クリックしてファイルを選択（PDF/JPG/PNG、最大10MB、複数選択可）</span>
+              }
             </div>
-            <input id="circular-file" type="file" accept=".pdf,image/*" style={{ display: 'none' }}
-              onChange={(e: ChangeEvent<HTMLInputElement>) => setFile(e.target.files?.[0] ?? null)} required={!file} />
+            <input id="circular-files" type="file" accept=".pdf,image/*" multiple style={{ display: 'none' }}
+              onChange={handleFileChange} />
           </div>
           <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end' }}>
             <Link to="/admin/circulars" className="btn btn-secondary">キャンセル</Link>

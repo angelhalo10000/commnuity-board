@@ -1,7 +1,7 @@
 class Circular < ApplicationRecord
   belongs_to :organization
 
-  has_one_attached :file
+  has_many_attached :files
 
   enum :target_type, { all: "all", leaders: "leaders" }, prefix: :target
   enum :status, { draft: "draft", scheduled: "scheduled", published: "published", archived: "archived" }, prefix: false

@@ -48,15 +48,20 @@ module Api
 
       def circular_detail(circular)
         summary = circular_summary(circular)
-        return summary if circular.file.blank?
+        summary[:files] = circular.files.map { |f| attachment_json(f) }
+        summary
+      end
 
-        blob = circular.file.blob
-        file_type = blob.content_type.start_with?("image/") ? "image" : "pdf"
-
-        circular_summary(circular).merge(
-          file_url: Rails.application.routes.url_helpers.rails_blob_url(circular.file, only_path: true),
-          file_type: file_type
-        )
+      def attachment_json(attachment)
+        blob = attachment.blob
+        {
+          id: attachment.id,
+          filename: blob.filename.to_s,
+          content_type: blob.content_type,
+          byte_size: blob.byte_size,
+          file_url: Rails.application.routes.url_helpers.rails_blob_url(attachment, only_path: true),
+          file_type: blob.content_type.start_with?("image/") ? "image" : "pdf"
+        }
       end
     end
   end

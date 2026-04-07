@@ -12,6 +12,7 @@ export interface Attachment {
   content_type: string
   byte_size: number
   file_url: string
+  file_type?: 'pdf' | 'image'
 }
 
 export interface NoticeSummary {
@@ -53,8 +54,7 @@ export interface CircularSummary {
 }
 
 export interface CircularDetail extends CircularSummary {
-  file_url: string
-  file_type: 'pdf' | 'image'
+  files: Attachment[]
 }
 
 export interface AdminCircularSummary {
@@ -67,6 +67,5 @@ export interface AdminCircularSummary {
 }
 
 export interface AdminCircularDetail extends AdminCircularSummary {
-  file_url?: string
-  file_type?: 'pdf' | 'image'
+  files: Attachment[]
 }

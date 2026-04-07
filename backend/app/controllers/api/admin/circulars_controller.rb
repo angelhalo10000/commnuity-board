@@ -22,7 +22,7 @@ module Api
         circular.published_at = Time.current if circular.published?
 
         if circular.save
-          circular.file.attach(params[:file]) if params[:file].present?
+          attach_files(circular, params[:files])
           render json: circular_detail(circular), status: :created
         else
           render_errors(circular.errors.full_messages)
@@ -34,6 +34,8 @@ module Api
         @circular.published_at ||= Time.current if @circular.published?
 
         if @circular.save
+          attach_files(@circular, params[:files])
+          remove_attachments(@circular, params[:remove_file_ids])
           render json: circular_detail(@circular)
         else
           render_errors(@circular.errors.full_messages)
@@ -80,18 +82,32 @@ module Api
         }
       end
 
+      def attach_files(circular, files)
+        return if files.blank?
+        Array(files).each { |f| circular.files.attach(f) }
+      end
+
+      def remove_attachments(circular, ids)
+        return if ids.blank?
+        circular.files.where(id: Array(ids)).each(&:purge_later)
+      end
+
       def circular_detail(circular)
         detail = circular_summary(circular)
-
-        if circular.file.attached?
-          blob = circular.file.blob
-          detail.merge!(
-            file_url: Rails.application.routes.url_helpers.rails_blob_url(circular.file, only_path: true),
-            file_type: blob.content_type.start_with?("image/") ? "image" : "pdf"
-          )
-        end
-
+        detail[:files] = circular.files.map { |f| attachment_json(f) }
         detail
+      end
+
+      def attachment_json(attachment)
+        blob = attachment.blob
+        {
+          id: attachment.id,
+          filename: blob.filename.to_s,
+          content_type: blob.content_type,
+          byte_size: blob.byte_size,
+          file_url: Rails.application.routes.url_helpers.rails_blob_url(attachment, only_path: true),
+          file_type: blob.content_type.start_with?("image/") ? "image" : "pdf"
+        }
       end
     end
   end

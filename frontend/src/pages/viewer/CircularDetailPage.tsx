@@ -1,11 +1,34 @@
 import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { viewerApi } from '../../api/viewer'
-import type { CircularDetail } from '../../types'
+import type { CircularDetail, Attachment } from '../../types'
 import { NewBadge, TargetBadge } from '../../components/StatusBadge'
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' })
+}
+
+function AttachmentView({ attachment }: { attachment: Attachment }) {
+  const fileType = attachment.file_type ?? (attachment.content_type.startsWith('image/') ? 'image' : 'pdf')
+
+  if (fileType === 'image') {
+    return (
+      <img src={attachment.file_url} alt={attachment.filename} style={{ maxWidth: '100%', borderRadius: 'var(--radius)' }} />
+    )
+  }
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+      <iframe
+        src={attachment.file_url}
+        style={{ width: '100%', height: 600, border: '1px solid var(--border)', borderRadius: 'var(--radius)' }}
+        title={attachment.filename}
+      />
+      <a href={attachment.file_url} target="_blank" rel="noopener noreferrer" className="btn btn-secondary btn-sm" style={{ alignSelf: 'flex-start' }}>
+        {attachment.filename} をダウンロード
+      </a>
+    </div>
+  )
 }
 
 export default function CircularDetailPage() {
@@ -36,18 +59,13 @@ export default function CircularDetailPage() {
           <p style={{ fontSize: 13, color: 'var(--text-muted)' }}>{formatDate(circular.published_at)} 配信</p>
         </div>
         <hr className="divider" />
-        {circular.file_type === 'image' ? (
-          <img src={circular.file_url} alt={circular.title} style={{ maxWidth: '100%', borderRadius: 'var(--radius)' }} />
+        {circular.files.length === 0 ? (
+          <p style={{ color: 'var(--text-muted)', fontSize: 14 }}>添付ファイルはありません</p>
         ) : (
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            <iframe
-              src={circular.file_url}
-              style={{ width: '100%', height: 600, border: '1px solid var(--border)', borderRadius: 'var(--radius)' }}
-              title={circular.title}
-            />
-            <a href={circular.file_url} target="_blank" rel="noopener noreferrer" className="btn btn-secondary btn-sm" style={{ alignSelf: 'flex-start' }}>
-              PDFをダウンロード
-            </a>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+            {circular.files.map(f => (
+              <AttachmentView key={f.id} attachment={f} />
+            ))}
           </div>
         )}
       </div>
