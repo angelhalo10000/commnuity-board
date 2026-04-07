@@ -7,12 +7,14 @@ import { viewerApi } from '../api/viewer'
 interface AuthState {
   viewerRole: ViewerRole | null
   isAdmin: boolean
+  orgName: string
   ready: boolean
 }
 
 interface AuthContextType extends AuthState {
   setViewerRole: (role: ViewerRole | null) => void
   setIsAdmin: (v: boolean) => void
+  setOrgName: (name: string) => void
 }
 
 const AuthContext = createContext<AuthContextType | null>(null)
@@ -20,17 +22,18 @@ const AuthContext = createContext<AuthContextType | null>(null)
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [viewerRole, setViewerRole] = useState<ViewerRole | null>(null)
   const [isAdmin, setIsAdmin] = useState(false)
+  const [orgName, setOrgName] = useState('')
   const [ready, setReady] = useState(false)
 
   useEffect(() => {
     Promise.all([
-      adminApi.getSession().then(() => setIsAdmin(true)).catch(() => {}),
-      viewerApi.getSession().then(r => setViewerRole(r.data.role)).catch(() => {}),
+      adminApi.getSession().then(r => { setIsAdmin(true); setOrgName(r.data.organization_name) }).catch(() => {}),
+      viewerApi.getSession().then(r => { setViewerRole(r.data.role); setOrgName(r.data.organization_name) }).catch(() => {}),
     ]).finally(() => setReady(true))
   }, [])
 
   return (
-    <AuthContext.Provider value={{ viewerRole, isAdmin, ready, setViewerRole, setIsAdmin }}>
+    <AuthContext.Provider value={{ viewerRole, isAdmin, orgName, ready, setViewerRole, setIsAdmin, setOrgName }}>
       {children}
     </AuthContext.Provider>
   )

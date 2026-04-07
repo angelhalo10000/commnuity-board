@@ -2,7 +2,7 @@ import client from './client'
 import type { NoticeSummary, NoticeDetail, CircularSummary, CircularDetail, Pagination, ViewerRole } from '../types'
 
 export const viewerApi = {
-  getSession: () => client.get<{ role: ViewerRole }>('/viewer/session'),
+  getSession: () => client.get<{ role: ViewerRole; organization_name: string }>('/viewer/session'),
 
   login: (password: string) =>
     client.post<{ role: ViewerRole }>('/viewer/session', { password }),

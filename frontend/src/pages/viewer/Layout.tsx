@@ -3,7 +3,7 @@ import { useAuth } from '../../contexts/AuthContext'
 import { viewerApi } from '../../api/viewer'
 
 export default function ViewerLayout() {
-  const { setViewerRole } = useAuth()
+  const { setViewerRole, orgName } = useAuth()
   const navigate = useNavigate()
 
   async function handleLogout() {
@@ -15,7 +15,7 @@ export default function ViewerLayout() {
   return (
     <>
       <header className="header">
-        <NavLink to="/" className="header-logo">🏘 自治会</NavLink>
+        <NavLink to="/" className="header-logo">🏘 {orgName}</NavLink>
         <nav className="header-nav">
           <NavLink to="/" end className={({ isActive }) => isActive ? 'active' : ''}>トップ</NavLink>
           <NavLink to="/notices" className={({ isActive }) => isActive ? 'active' : ''}>お知らせ</NavLink>

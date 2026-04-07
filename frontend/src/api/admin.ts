@@ -2,7 +2,7 @@ import client from './client'
 import type { AdminNoticeSummary, AdminNoticeDetail, AdminCircularSummary, AdminCircularDetail, Pagination } from '../types'
 
 export const adminApi = {
-  getSession: () => client.get('/admin/session'),
+  getSession: () => client.get<{ organization_name: string }>('/admin/session'),
 
   login: (password: string) =>
     client.post('/admin/session', { password }),

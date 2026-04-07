@@ -3,7 +3,7 @@ import { useAuth } from '../../contexts/AuthContext'
 import { adminApi } from '../../api/admin'
 
 export default function AdminLayout() {
-  const { setIsAdmin } = useAuth()
+  const { setIsAdmin, orgName } = useAuth()
   const navigate = useNavigate()
 
   async function handleLogout() {
@@ -15,7 +15,7 @@ export default function AdminLayout() {
   return (
     <>
       <header className="header">
-        <NavLink to="/admin" className="header-logo">🏘 自治会 管理</NavLink>
+        <NavLink to="/admin" className="header-logo">🏘 {orgName} 管理</NavLink>
         <button onClick={handleLogout} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 14, color: 'var(--text-muted)' }}>ログアウト</button>
       </header>
       <div className="admin-layout">

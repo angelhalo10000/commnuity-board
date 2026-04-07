@@ -3,7 +3,7 @@ module Api
     class SessionsController < Api::BaseController
       def show
         if session[:admin_authenticated]
-          head :ok
+          render json: { organization_name: current_organization.name }
         else
           head :unauthorized
         end

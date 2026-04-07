@@ -4,7 +4,7 @@ module Api
       def show
         role = session[:viewer_role]
         if role.present?
-          render json: { role: role }
+          render json: { role: role, organization_name: current_organization.name }
         else
           head :unauthorized
         end
@@ -22,7 +22,7 @@ module Api
 
         if role
           session[:viewer_role] = role
-          render json: { role: role }
+          render json: { role: role, organization_name: org.name }
         else
           render_errors([ "パスワードが正しくありません" ], status: :unauthorized)
         end

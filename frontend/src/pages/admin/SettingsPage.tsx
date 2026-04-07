@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import type { FormEvent } from 'react'
 import { adminApi } from '../../api/admin'
+import { useAuth } from '../../contexts/AuthContext'
 
 function PasswordForm({ label, onSave }: { label: string; onSave: (current: string, next: string) => Promise<void> }) {
   const [current, setCurrent] = useState('')
@@ -48,18 +49,18 @@ function PasswordForm({ label, onSave }: { label: string; onSave: (current: stri
 }
 
 export default function SettingsPage() {
-  const [orgName, setOrgName] = useState('')
+  const { orgName, setOrgName: setContextOrgName } = useAuth()
   const [editName, setEditName] = useState('')
   const [nameMsg, setNameMsg] = useState('')
 
   useEffect(() => {
-    adminApi.getSettings().then(r => { setOrgName(r.data.organization_name); setEditName(r.data.organization_name) })
+    adminApi.getSettings().then(r => { setEditName(r.data.organization_name) })
   }, [])
 
   async function handleNameSave(e: FormEvent) {
     e.preventDefault()
     await adminApi.updateOrganization(editName)
-    setOrgName(editName)
+    setContextOrgName(editName)
     setNameMsg('変更しました')
   }
 
