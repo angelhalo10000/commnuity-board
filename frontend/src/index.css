@@ -109,6 +109,7 @@ a:hover { text-decoration: underline; }
   font-weight: 600;
 }
 .badge-new { background: #fef3c7; color: #92400e; }
+.badge-all { background: #f0f9ff; color: #0369a1; }
 .badge-leader { background: #fdf4ff; color: #7e22ce; }
 .badge-draft { background: #f1f5f9; color: #475569; }
 .badge-scheduled { background: #f0fdf4; color: #15803d; }

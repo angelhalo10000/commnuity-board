@@ -13,7 +13,7 @@ export function TargetBadge({ targetType }: { targetType: 'all' | 'leaders' }) {
   if (targetType === 'leaders') {
     return <span className="badge badge-leader">班長のみ</span>
   }
-  return null
+  return <span className="badge badge-all">全員</span>
 }
 
 export function NewBadge() {
