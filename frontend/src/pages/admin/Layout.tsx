@@ -25,6 +25,7 @@ export default function AdminLayout() {
           <NavLink to="/admin/circulars" className={({ isActive }) => `admin-sidebar-item${isActive ? ' active' : ''}`}>📋 回覧板</NavLink>
           <div className="admin-sidebar-section">管理</div>
           <NavLink to="/admin/settings" className={({ isActive }) => `admin-sidebar-item${isActive ? ' active' : ''}`}>⚙️ 設定</NavLink>
+          <a href="/" target="_blank" rel="noopener noreferrer" className="admin-sidebar-item">🌐 サイトを見る</a>
         </aside>
         <main className="admin-content">
           <Outlet />
