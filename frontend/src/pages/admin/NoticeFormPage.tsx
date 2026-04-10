@@ -129,8 +129,13 @@ export default function NoticeFormPage() {
 
           <div className="form-group">
             <label className="form-label">添付ファイル（複数可）</label>
-            <input type="file" multiple onChange={handleFileChange} className="form-control" />
-            <p className="form-hint">1ファイルあたり最大10MB</p>
+            <div className="file-upload" onClick={() => document.getElementById('notice-files')?.click()}>
+              {files.length > 0
+                ? <span>{files.map(f => f.name).join(', ')}</span>
+                : <span>クリックしてファイルを選択（最大10MB、複数選択可）</span>
+              }
+            </div>
+            <input id="notice-files" type="file" multiple style={{ display: 'none' }} onChange={handleFileChange} />
           </div>
 
           <div style={{ display: 'flex', gap: 10, justifyContent: 'flex-end' }}>
