@@ -3,7 +3,7 @@ class SwaggerController < ActionController::Base
   end
 
   def openapi
-    yaml_path = Rails.root.join("../openapi.yaml")
+    yaml_path = Rails.root.join("app/views/swagger/openapi.yaml")
     if yaml_path.exist?
       send_file yaml_path, type: "application/yaml", disposition: "inline"
     else
