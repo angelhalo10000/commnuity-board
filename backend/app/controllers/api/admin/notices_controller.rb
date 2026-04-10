@@ -6,7 +6,7 @@ module Api
       def index
         scope = current_organization.notices
         scope = apply_filters(scope)
-        scope = scope.where(status: params[:status]) if params[:status].present?
+        scope = apply_status_filter(scope, params[:status]) if params[:status].present?
         scope = scope.order(created_at: :desc)
 
         notices, pagination = paginate(scope, page: params[:page])
@@ -81,6 +81,14 @@ module Api
       def remove_attachments(notice, ids)
         return if ids.blank?
         notice.attachments.where(id: Array(ids)).each(&:purge_later)
+      end
+
+      def apply_status_filter(scope, status)
+        case status
+        when "scheduled" then scope.published.where("published_at > ?", Time.current)
+        when "published"  then scope.published.where("published_at <= ?", Time.current)
+        else scope.where(status: status)
+        end
       end
 
       def apply_filters(scope)

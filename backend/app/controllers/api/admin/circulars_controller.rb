@@ -6,7 +6,7 @@ module Api
       def index
         scope = current_organization.circulars
         scope = apply_filters(scope)
-        scope = scope.where(status: params[:status]) if params[:status].present?
+        scope = apply_status_filter(scope, params[:status]) if params[:status].present?
         scope = scope.order(created_at: :desc)
 
         circulars, pagination = paginate(scope, page: params[:page])
@@ -74,6 +74,14 @@ module Api
         when "scheduled" then scheduled_at.presence
         when "published"  then current_published_at&.past? ? current_published_at : Time.current
         else current_published_at
+        end
+      end
+
+      def apply_status_filter(scope, status)
+        case status
+        when "scheduled" then scope.published.where("published_at > ?", Time.current)
+        when "published"  then scope.published.where("published_at <= ?", Time.current)
+        else scope.where(status: status)
         end
       end
 
