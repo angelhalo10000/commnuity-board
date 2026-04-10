@@ -125,7 +125,7 @@ module Api
           filename: blob.filename.to_s,
           content_type: blob.content_type,
           byte_size: blob.byte_size,
-          file_url: Rails.application.routes.url_helpers.rails_blob_url(attachment, only_path: true),
+          file_url: Rails.application.routes.url_helpers.rails_storage_proxy_path(attachment, only_path: true),
           file_type: blob.content_type.start_with?("image/") ? "image" : "pdf"
         }
       end

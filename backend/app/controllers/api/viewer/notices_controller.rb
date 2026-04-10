@@ -60,7 +60,7 @@ module Api
           filename: attachment.filename.to_s,
           content_type: attachment.content_type,
           byte_size: attachment.byte_size,
-          file_url: Rails.application.routes.url_helpers.rails_blob_url(attachment, only_path: true)
+          file_url: Rails.application.routes.url_helpers.rails_storage_proxy_path(attachment, only_path: true)
         }
       end
     end
