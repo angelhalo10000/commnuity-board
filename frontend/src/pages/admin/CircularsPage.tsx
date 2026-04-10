@@ -61,7 +61,7 @@ export default function AdminCircularsPage() {
       <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
         <table className="table">
           <thead>
-            <tr><th>タイトル</th><th>対象</th><th>ステータス</th><th>配信日</th><th></th></tr>
+            <tr><th>タイトル</th><th>対象</th><th>ステータス</th><th>配信日/配信予定日</th><th></th></tr>
           </thead>
           <tbody>
             {circulars.length === 0 && (
@@ -72,7 +72,7 @@ export default function AdminCircularsPage() {
                 <td style={{ fontWeight: 500 }}>📋 {c.title}</td>
                 <td><TargetBadge targetType={c.target_type} /></td>
                 <td><StatusBadge status={c.status} /></td>
-                <td>{formatDate(c.published_at)}</td>
+                <td>{formatDate(c.scheduled_at ?? c.published_at)}</td>
                 <td style={{ display: 'flex', gap: 8 }}>
                   <button onClick={() => handleDelete(c.id)} className="btn btn-danger btn-sm">削除</button>
                 </td>

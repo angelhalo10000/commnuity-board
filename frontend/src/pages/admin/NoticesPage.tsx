@@ -61,7 +61,7 @@ export default function AdminNoticesPage() {
       <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
         <table className="table">
           <thead>
-            <tr><th>タイトル</th><th>対象</th><th>ステータス</th><th>配信日</th><th></th></tr>
+            <tr><th>タイトル</th><th>対象</th><th>ステータス</th><th>配信日/配信予定日</th><th></th></tr>
           </thead>
           <tbody>
             {notices.length === 0 && (
@@ -72,7 +72,7 @@ export default function AdminNoticesPage() {
                 <td style={{ fontWeight: 500 }}>{n.title}</td>
                 <td><TargetBadge targetType={n.target_type} /></td>
                 <td><StatusBadge status={n.status} /></td>
-                <td>{formatDate(n.published_at)}</td>
+                <td>{formatDate(n.scheduled_at ?? n.published_at)}</td>
                 <td style={{ display: 'flex', gap: 8 }}>
                   <Link to={`/admin/notices/${n.id}/edit`} className="btn btn-secondary btn-sm">編集</Link>
                   <button onClick={() => handleDelete(n.id)} className="btn btn-danger btn-sm">削除</button>
