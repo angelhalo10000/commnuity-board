@@ -29,6 +29,25 @@ paths:
   # ── 公開側認証 ──────────────────────────────
 
   /viewer/session:
+    get:
+      tags: [viewer-session]
+      summary: ログイン状態確認
+      description: セッションCookieが有効な場合、現在のロールと自治会名を返す。
+      responses:
+        "200":
+          description: ログイン済み
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  role:
+                    type: string
+                    enum: [member, leader]
+                  organization_name:
+                    type: string
+        "401":
+          $ref: "#/components/responses/Unauthorized"
     post:
       tags: [viewer-session]
       summary: 共通パスワード認証
@@ -56,6 +75,8 @@ paths:
                   role:
                     type: string
                     enum: [member, leader]
+                  organization_name:
+                    type: string
         "401":
           $ref: "#/components/responses/Unauthorized"
     delete:
@@ -173,6 +194,21 @@ paths:
   # ── 管理者認証 ──────────────────────────────
 
   /admin/session:
+    get:
+      tags: [admin-session]
+      summary: 管理者ログイン状態確認
+      responses:
+        "200":
+          description: ログイン済み
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  organization_name:
+                    type: string
+        "401":
+          $ref: "#/components/responses/Unauthorized"
     post:
       tags: [admin-session]
       summary: 管理者ログイン
@@ -210,6 +246,11 @@ paths:
         - $ref: "#/components/parameters/keyword"
         - $ref: "#/components/parameters/year"
         - $ref: "#/components/parameters/month"
+        - name: target_type
+          in: query
+          schema:
+            type: string
+            enum: [all, leaders]
         - name: status
           in: query
           schema:
@@ -327,6 +368,11 @@ paths:
         - $ref: "#/components/parameters/keyword"
         - $ref: "#/components/parameters/year"
         - $ref: "#/components/parameters/month"
+        - name: target_type
+          in: query
+          schema:
+            type: string
+            enum: [all, leaders]
         - name: status
           in: query
           schema:
@@ -373,12 +419,27 @@ paths:
           $ref: "#/components/responses/UnprocessableEntity"
 
   /admin/circulars/{id}:
+    get:
+      tags: [admin-circulars]
+      summary: 回覧板詳細（管理）
+      security:
+        - adminSession: []
+      parameters:
+        - $ref: "#/components/parameters/id"
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminCircularDetail"
+        "401":
+          $ref: "#/components/responses/Unauthorized"
+        "404":
+          $ref: "#/components/responses/NotFound"
     patch:
       tags: [admin-circulars]
-      summary: 回覧板ステータス変更（アーカイブ等）
-      description: |
-        ステータスのみ変更可能。コンテンツの編集は削除して作り直す運用。
-        アーカイブ（status: archived）することで公開側から非表示にしつつ管理画面に記録を残せる。
+      summary: 回覧板更新
       security:
         - adminSession: []
       parameters:
@@ -386,9 +447,9 @@ paths:
       requestBody:
         required: true
         content:
-          application/json:
+          multipart/form-data:
             schema:
-              $ref: "#/components/schemas/CircularStatusInput"
+              $ref: "#/components/schemas/CircularInput"
       responses:
         "200":
           description: 更新成功
@@ -752,6 +813,9 @@ components:
           format: date-time
           nullable: true
           description: status が scheduled の場合は null。公開済みの場合は配信日時。
+        files_count:
+          type: integer
+          description: 添付ファイル数
 
     AdminCircularDetail:
       allOf:
@@ -785,25 +849,17 @@ components:
             type: string
             format: binary
           description: PDF または画像ファイル（複数可）
-
-    CircularStatusInput:
-      type: object
-      required: [status]
-      properties:
-        status:
-          type: string
-          enum: [draft, scheduled, published, archived]
-        scheduled_at:
-          type: string
-          format: date-time
-          description: status が scheduled の場合は必須
+        remove_file_ids[]:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: 削除するファイルのID（更新時のみ使用）
 
     SharedPasswordInput:
       type: object
-      required: [current_password, password]
+      required: [password]
       properties:
-        current_password:
-          type: string
         password:
           type: string
 
@@ -825,6 +881,7 @@ components:
         file_type:
           type: string
           enum: [pdf, image]
+          description: 回覧板ファイルのみ付与される
 
     Error:
       type: object
