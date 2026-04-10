@@ -8,6 +8,8 @@ function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' })
 }
 
+const isAndroid = /Android/i.test(navigator.userAgent)
+
 function AttachmentView({ attachment }: { attachment: Attachment }) {
   const fileType = attachment.file_type ?? (attachment.content_type.startsWith('image/') ? 'image' : 'pdf')
 
@@ -19,11 +21,13 @@ function AttachmentView({ attachment }: { attachment: Attachment }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-      <iframe
-        src={attachment.file_url}
-        style={{ width: '100%', height: 600, border: '1px solid var(--border)', borderRadius: 'var(--radius)' }}
-        title={attachment.filename}
-      />
+      {!isAndroid && (
+        <iframe
+          src={attachment.file_url}
+          style={{ width: '100%', height: 600, border: '1px solid var(--border)', borderRadius: 'var(--radius)' }}
+          title={attachment.filename}
+        />
+      )}
       <a href={attachment.file_url} target="_blank" rel="noopener noreferrer" className="btn btn-secondary btn-sm" style={{ alignSelf: 'flex-start' }}>
         {attachment.filename} をダウンロード
       </a>
