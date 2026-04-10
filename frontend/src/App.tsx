@@ -54,6 +54,7 @@ export default function App() {
           <Route path="notices/:id/edit" element={<NoticeFormPage />} />
           <Route path="circulars" element={<AdminCircularsPage />} />
           <Route path="circulars/new" element={<CircularFormPage />} />
+          <Route path="circulars/:id/edit" element={<CircularFormPage />} />
           <Route path="circulars/:id" element={<AdminCircularDetailPage />} />
           <Route path="settings" element={<SettingsPage />} />
         </Route>

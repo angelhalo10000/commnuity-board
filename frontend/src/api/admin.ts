@@ -35,8 +35,8 @@ export const adminApi = {
   createCircular: (data: FormData) =>
     client.post<AdminCircularDetail>('/admin/circulars', data, { headers: { 'Content-Type': 'multipart/form-data' } }),
 
-  updateCircularStatus: (id: string, status: string, scheduled_at?: string) =>
-    client.patch<AdminCircularDetail>(`/admin/circulars/${id}`, { status, scheduled_at }),
+  updateCircular: (id: string, data: FormData) =>
+    client.patch<AdminCircularDetail>(`/admin/circulars/${id}`, data, { headers: { 'Content-Type': 'multipart/form-data' } }),
 
   deleteCircular: (id: string) =>
     client.delete(`/admin/circulars/${id}`),

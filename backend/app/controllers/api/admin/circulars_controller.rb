@@ -34,7 +34,7 @@ module Api
       end
 
       def update
-        @circular.assign_attributes(circular_status_params)
+        @circular.assign_attributes(circular_params)
         @circular.published_at = resolve_published_at(params[:status], params[:scheduled_at], @circular.published_at)
 
         if @circular.save
@@ -59,12 +59,6 @@ module Api
 
       def circular_params
         permitted = params.permit(:title, :target_type, :status)
-        permitted[:status] = "published" if permitted[:status] == "scheduled"
-        permitted
-      end
-
-      def circular_status_params
-        permitted = params.permit(:status)
         permitted[:status] = "published" if permitted[:status] == "scheduled"
         permitted
       end
@@ -103,7 +97,8 @@ module Api
           target_type: circular.target_type,
           status: circular.status,
           scheduled_at: circular.scheduled_at,
-          published_at: circular.status == "scheduled" ? nil : circular.published_at
+          published_at: circular.status == "scheduled" ? nil : circular.published_at,
+          files_count: circular.files.size
         }
       end
 

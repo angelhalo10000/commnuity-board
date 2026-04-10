@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import { adminApi } from '../../api/admin'
 import type { AdminCircularDetail } from '../../types'
 import { StatusBadge, TargetBadge } from '../../components/StatusBadge'
@@ -11,6 +11,7 @@ function formatDateTime(iso: string | null) {
 
 export default function AdminCircularDetailPage() {
   const { id } = useParams<{ id: string }>()
+  const navigate = useNavigate()
   const [circular, setCircular] = useState<AdminCircularDetail | null>(null)
 
   useEffect(() => {
@@ -28,6 +29,7 @@ export default function AdminCircularDetailPage() {
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 20 }}>
         <Link to="/admin/circulars" style={{ fontSize: 14 }}>← 一覧へ</Link>
         <h1 className="page-title" style={{ margin: 0 }}>回覧板詳細</h1>
+        <button onClick={() => navigate(`/admin/circulars/${id}/edit`)} className="btn btn-secondary btn-sm" style={{ marginLeft: 'auto' }}>編集</button>
       </div>
 
       <div className="card">
@@ -41,7 +43,6 @@ export default function AdminCircularDetailPage() {
           <div>
             <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 4 }}>配信対象</div>
             <TargetBadge targetType={circular.target_type} />
-            {circular.target_type === 'all' && <span style={{ fontSize: 14 }}>全員</span>}
           </div>
           <div>
             <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 4 }}>{dateLabel}</div>

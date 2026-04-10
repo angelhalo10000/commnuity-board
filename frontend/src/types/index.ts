@@ -64,6 +64,7 @@ export interface AdminCircularSummary {
   status: 'draft' | 'scheduled' | 'published' | 'archived'
   scheduled_at: string | null
   published_at: string | null
+  files_count: number
 }
 
 export interface AdminCircularDetail extends AdminCircularSummary {
