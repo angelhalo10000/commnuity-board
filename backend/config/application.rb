@@ -33,6 +33,10 @@ module Backend
     # These settings can be overridden in specific environments using the files
     # in config/environments, which are processed later.
     #
+    config.generators do |g|
+      g.orm :active_record, primary_key_type: :string
+    end
+
     config.time_zone = "Asia/Tokyo"
     config.active_record.default_timezone = :utc
     # config.eager_load_paths << Rails.root.join("extras")
