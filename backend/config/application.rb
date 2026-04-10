@@ -47,6 +47,8 @@ module Backend
     config.api_only = true
 
     # Session support for API mode
+    require_relative '../app/middleware/active_storage_frame_options'
+    config.middleware.use ActiveStorageFrameOptions
     config.middleware.use ActionDispatch::Cookies
     config.middleware.use ActionDispatch::Session::CookieStore,
       key: "_community_board_session",
