@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   get "up" => "rails/health#show", as: :rails_health_check
 
+  get "api-docs", to: "swagger#index"
+  get "api-docs/openapi.yaml", to: "swagger#openapi"
+
   namespace :api do
     namespace :viewer do
       resource :session, only: [ :show, :create, :destroy ]
