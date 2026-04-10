@@ -23,7 +23,7 @@ module Api
 
       def create
         notice = current_organization.notices.build(notice_params)
-        notice.published_at = resolve_published_at(notice)
+        notice.published_at = resolve_published_at(params[:status], params[:scheduled_at], notice.published_at)
 
         if notice.save
           attach_files(notice, params[:attachments])
@@ -35,7 +35,7 @@ module Api
 
       def update
         @notice.assign_attributes(notice_params)
-        @notice.published_at ||= resolve_published_at(@notice)
+        @notice.published_at = resolve_published_at(params[:status], params[:scheduled_at], @notice.published_at)
 
         if @notice.save
           attach_files(@notice, params[:attachments])
@@ -58,14 +58,17 @@ module Api
       end
 
       def notice_params
-        permitted = params.permit(:title, :body, :target_type, :status, :scheduled_at)
+        permitted = params.permit(:title, :body, :target_type, :status)
         permitted[:status] = "published" if permitted[:status] == "scheduled"
         permitted
       end
 
-      def resolve_published_at(notice)
-        return params[:scheduled_at] if params[:status] == "scheduled" && params[:scheduled_at].present?
-        Time.current if notice.published?
+      def resolve_published_at(requested_status, scheduled_at, current_published_at)
+        case requested_status
+        when "scheduled" then scheduled_at.presence
+        when "published"  then current_published_at&.past? ? current_published_at : Time.current
+        else current_published_at
+        end
       end
 
       def attach_files(notice, files)
@@ -91,14 +94,13 @@ module Api
       end
 
       def notice_summary(notice)
-        future_scheduled = notice.published? && notice.published_at&.future?
         {
           id: notice.id,
           title: notice.title,
           target_type: notice.target_type,
-          status: future_scheduled ? "scheduled" : notice.status,
-          scheduled_at: future_scheduled ? notice.published_at : nil,
-          published_at: future_scheduled ? nil : notice.published_at
+          status: notice.status,
+          scheduled_at: notice.scheduled_at,
+          published_at: notice.status == "scheduled" ? nil : notice.published_at
         }
       end
 

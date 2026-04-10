@@ -19,7 +19,7 @@ module Api
 
       def create
         circular = current_organization.circulars.build(circular_params)
-        circular.published_at = resolve_published_at(circular)
+        circular.published_at = resolve_published_at(params[:status], params[:scheduled_at], circular.published_at)
 
         if circular.save
           attach_files(circular, params[:files])
@@ -31,7 +31,7 @@ module Api
 
       def update
         @circular.assign_attributes(circular_status_params)
-        @circular.published_at ||= resolve_published_at(@circular)
+        @circular.published_at = resolve_published_at(params[:status], params[:scheduled_at], @circular.published_at)
 
         if @circular.save
           attach_files(@circular, params[:files])
@@ -54,20 +54,23 @@ module Api
       end
 
       def circular_params
-        permitted = params.permit(:title, :target_type, :status, :scheduled_at)
+        permitted = params.permit(:title, :target_type, :status)
         permitted[:status] = "published" if permitted[:status] == "scheduled"
         permitted
       end
 
       def circular_status_params
-        permitted = params.permit(:status, :scheduled_at)
+        permitted = params.permit(:status)
         permitted[:status] = "published" if permitted[:status] == "scheduled"
         permitted
       end
 
-      def resolve_published_at(circular)
-        return params[:scheduled_at] if params[:status] == "scheduled" && params[:scheduled_at].present?
-        Time.current if circular.published?
+      def resolve_published_at(requested_status, scheduled_at, current_published_at)
+        case requested_status
+        when "scheduled" then scheduled_at.presence
+        when "published"  then current_published_at&.past? ? current_published_at : Time.current
+        else current_published_at
+        end
       end
 
       def apply_filters(scope)
@@ -81,14 +84,13 @@ module Api
       end
 
       def circular_summary(circular)
-        future_scheduled = circular.published? && circular.published_at&.future?
         {
           id: circular.id,
           title: circular.title,
           target_type: circular.target_type,
-          status: future_scheduled ? "scheduled" : circular.status,
-          scheduled_at: future_scheduled ? circular.published_at : nil,
-          published_at: future_scheduled ? nil : circular.published_at
+          status: circular.status,
+          scheduled_at: circular.scheduled_at,
+          published_at: circular.status == "scheduled" ? nil : circular.published_at
         }
       end
 
