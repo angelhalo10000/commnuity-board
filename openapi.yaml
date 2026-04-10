@@ -635,14 +635,19 @@ components:
         status:
           type: string
           enum: [draft, scheduled, published, archived]
+          description: |
+            `scheduled` は仮想ステータス。DBでは `published` として保存されているが、
+            `published_at` が未来の場合に `scheduled` として返される。
         scheduled_at:
           type: string
           format: date-time
           nullable: true
+          description: status が scheduled の場合に published_at の値が入る。それ以外は null。
         published_at:
           type: string
           format: date-time
           nullable: true
+          description: status が scheduled の場合は null。公開済みの場合は配信日時。
 
     AdminNoticeDetail:
       allOf:
@@ -715,12 +720,10 @@ components:
         - $ref: "#/components/schemas/CircularSummary"
         - type: object
           properties:
-            file_url:
-              type: string
-              format: uri
-            file_type:
-              type: string
-              enum: [pdf, image]
+            files:
+              type: array
+              items:
+                $ref: "#/components/schemas/Attachment"
 
     AdminCircularSummary:
       type: object
@@ -736,36 +739,36 @@ components:
         status:
           type: string
           enum: [draft, scheduled, published, archived]
+          description: |
+            `scheduled` は仮想ステータス。DBでは `published` として保存されているが、
+            `published_at` が未来の場合に `scheduled` として返される。
         scheduled_at:
           type: string
           format: date-time
           nullable: true
+          description: status が scheduled の場合に published_at の値が入る。それ以外は null。
         published_at:
           type: string
           format: date-time
           nullable: true
+          description: status が scheduled の場合は null。公開済みの場合は配信日時。
 
     AdminCircularDetail:
       allOf:
         - $ref: "#/components/schemas/AdminCircularSummary"
         - type: object
           properties:
-            file_url:
-              type: string
-              format: uri
-            file_type:
-              type: string
-              enum: [pdf, image]
+            files:
+              type: array
+              items:
+                $ref: "#/components/schemas/Attachment"
 
     CircularInput:
       type: object
-      required: [title, file, target_type, status]
+      required: [title, target_type, status]
       properties:
         title:
           type: string
-        file:
-          type: string
-          format: binary
         target_type:
           type: string
           enum: [all, leaders]
@@ -776,6 +779,12 @@ components:
           type: string
           format: date-time
           description: status が scheduled の場合は必須
+        files[]:
+          type: array
+          items:
+            type: string
+            format: binary
+          description: PDF または画像ファイル（複数可）
 
     CircularStatusInput:
       type: object
@@ -804,15 +813,18 @@ components:
         id:
           type: string
           format: uuid
-        file_url:
-          type: string
-          format: uri
         filename:
           type: string
         content_type:
           type: string
         byte_size:
           type: integer
+        file_url:
+          type: string
+          format: uri
+        file_type:
+          type: string
+          enum: [pdf, image]
 
     Error:
       type: object
