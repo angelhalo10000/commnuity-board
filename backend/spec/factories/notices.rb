@@ -16,8 +16,8 @@ FactoryBot.define do
     end
 
     trait :scheduled do
-      status { "scheduled" }
-      scheduled_at { 1.day.from_now }
+      status { "published" }
+      published_at { 1.day.from_now }
     end
 
     trait :archived do

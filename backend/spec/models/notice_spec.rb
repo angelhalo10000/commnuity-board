@@ -10,13 +10,6 @@ RSpec.describe Notice, type: :model do
       expect(build(:notice, title: "")).not_to be_valid
     end
 
-    it "scheduledステータスでscheduled_atが空だと無効" do
-      expect(build(:notice, :scheduled, scheduled_at: nil)).not_to be_valid
-    end
-
-    it "scheduledステータスでscheduled_atがあれば有効" do
-      expect(build(:notice, :scheduled)).to be_valid
-    end
   end
 
   describe ".visible_to" do
@@ -24,6 +17,7 @@ RSpec.describe Notice, type: :model do
     let!(:published_all)     { create(:notice, :published, organization: org, target_type: "all") }
     let!(:published_leaders) { create(:notice, :published, :leaders_only, organization: org) }
     let!(:draft)             { create(:notice, organization: org) }
+    let!(:scheduled)         { create(:notice, :scheduled, organization: org, target_type: "all") }
 
     it "memberには全員向け公開記事のみ返す" do
       result = Notice.visible_to(:member)
@@ -36,6 +30,11 @@ RSpec.describe Notice, type: :model do
       result = Notice.visible_to(:leader)
       expect(result).to include(published_all, published_leaders)
       expect(result).not_to include(draft)
+    end
+
+    it "published_atが未来の記事（予約配信）は返さない" do
+      result = Notice.visible_to(:member)
+      expect(result).not_to include(scheduled)
     end
   end
 end

@@ -23,7 +23,7 @@ module Api
 
       def create
         notice = current_organization.notices.build(notice_params)
-        notice.published_at = Time.current if notice.published?
+        notice.published_at = resolve_published_at(notice)
 
         if notice.save
           attach_files(notice, params[:attachments])
@@ -35,7 +35,7 @@ module Api
 
       def update
         @notice.assign_attributes(notice_params)
-        @notice.published_at ||= Time.current if @notice.published?
+        @notice.published_at ||= resolve_published_at(@notice)
 
         if @notice.save
           attach_files(@notice, params[:attachments])
@@ -58,7 +58,14 @@ module Api
       end
 
       def notice_params
-        params.permit(:title, :body, :target_type, :status, :scheduled_at)
+        permitted = params.permit(:title, :body, :target_type, :status, :scheduled_at)
+        permitted[:status] = "published" if permitted[:status] == "scheduled"
+        permitted
+      end
+
+      def resolve_published_at(notice)
+        return params[:scheduled_at] if params[:status] == "scheduled" && params[:scheduled_at].present?
+        Time.current if notice.published?
       end
 
       def attach_files(notice, files)
@@ -84,13 +91,14 @@ module Api
       end
 
       def notice_summary(notice)
+        future_scheduled = notice.published? && notice.published_at&.future?
         {
           id: notice.id,
           title: notice.title,
           target_type: notice.target_type,
-          status: notice.status,
-          scheduled_at: notice.scheduled_at,
-          published_at: notice.published_at
+          status: future_scheduled ? "scheduled" : notice.status,
+          scheduled_at: future_scheduled ? notice.published_at : nil,
+          published_at: future_scheduled ? nil : notice.published_at
         }
       end
 
