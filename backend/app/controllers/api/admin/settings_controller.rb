@@ -7,10 +7,6 @@ module Api
 
       def member_password
         org = current_organization
-        unless org.authenticate_member_password(params[:current_password].to_s)
-          return render_errors([ "現在のパスワードが正しくありません" ], status: :unprocessable_entity)
-        end
-
         if org.update(member_password: params[:password])
           head :no_content
         else
@@ -20,10 +16,6 @@ module Api
 
       def leader_password
         org = current_organization
-        unless org.authenticate_leader_password(params[:current_password].to_s)
-          return render_errors([ "現在のパスワードが正しくありません" ], status: :unprocessable_entity)
-        end
-
         if org.update(leader_password: params[:password])
           head :no_content
         else

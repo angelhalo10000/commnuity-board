@@ -45,11 +45,11 @@ export const adminApi = {
   getSettings: () =>
     client.get<{ organization_name: string }>('/admin/settings'),
 
-  updateMemberPassword: (current_password: string, password: string) =>
-    client.patch('/admin/settings/member_password', { current_password, password }),
+  updateMemberPassword: (password: string) =>
+    client.patch('/admin/settings/member_password', { password }),
 
-  updateLeaderPassword: (current_password: string, password: string) =>
-    client.patch('/admin/settings/leader_password', { current_password, password }),
+  updateLeaderPassword: (password: string) =>
+    client.patch('/admin/settings/leader_password', { password }),
 
   updateAdminPassword: (current_password: string, password: string) =>
     client.patch('/admin/settings/admin_password', { current_password, password }),
