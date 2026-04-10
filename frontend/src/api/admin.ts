@@ -29,6 +29,9 @@ export const adminApi = {
   getCirculars: (params: { keyword?: string; year?: number; month?: number; status?: string; page?: number }) =>
     client.get<{ circulars: AdminCircularSummary[]; pagination: Pagination }>('/admin/circulars', { params }),
 
+  getCircular: (id: string) =>
+    client.get<AdminCircularDetail>(`/admin/circulars/${id}`),
+
   createCircular: (data: FormData) =>
     client.post<AdminCircularDetail>('/admin/circulars', data, { headers: { 'Content-Type': 'multipart/form-data' } }),
 

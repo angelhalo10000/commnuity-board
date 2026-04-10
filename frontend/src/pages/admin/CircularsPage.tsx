@@ -74,6 +74,7 @@ export default function AdminCircularsPage() {
                 <td><StatusBadge status={c.status} /></td>
                 <td>{formatDate(c.scheduled_at ?? c.published_at)}</td>
                 <td style={{ display: 'flex', gap: 8 }}>
+                  <Link to={`/admin/circulars/${c.id}`} className="btn btn-secondary btn-sm">詳細</Link>
                   <button onClick={() => handleDelete(c.id)} className="btn btn-danger btn-sm">削除</button>
                 </td>
               </tr>

@@ -59,6 +59,18 @@ RSpec.describe "Api::Admin::Circulars", type: :request do
       end
     end
 
+    describe "GET /api/admin/circulars/:id" do
+      let!(:circular) { create(:circular, :published, organization: org) }
+
+      it "200で回覧詳細を返す" do
+        get api_admin_circular_path(circular), as: :json
+        expect(response).to have_http_status(:ok)
+        json = response.parsed_body
+        expect(json["id"]).to eq(circular.id)
+        expect(json["files"]).to be_an(Array)
+      end
+    end
+
     describe "PATCH /api/admin/circulars/:id" do
       let!(:circular) { create(:circular, organization: org) }
 

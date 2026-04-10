@@ -16,6 +16,7 @@ import AdminNoticesPage from './pages/admin/NoticesPage'
 import NoticeFormPage from './pages/admin/NoticeFormPage'
 import AdminCircularsPage from './pages/admin/CircularsPage'
 import CircularFormPage from './pages/admin/CircularFormPage'
+import AdminCircularDetailPage from './pages/admin/CircularDetailPage'
 import SettingsPage from './pages/admin/SettingsPage'
 
 function RequireViewer({ children }: { children: React.ReactElement }) {
@@ -53,6 +54,7 @@ export default function App() {
           <Route path="notices/:id/edit" element={<NoticeFormPage />} />
           <Route path="circulars" element={<AdminCircularsPage />} />
           <Route path="circulars/new" element={<CircularFormPage />} />
+          <Route path="circulars/:id" element={<AdminCircularDetailPage />} />
           <Route path="settings" element={<SettingsPage />} />
         </Route>
 

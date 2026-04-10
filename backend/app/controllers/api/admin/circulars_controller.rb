@@ -1,7 +1,7 @@
 module Api
   module Admin
     class CircularsController < Api::Admin::BaseController
-      before_action :set_circular, only: [ :update, :destroy ]
+      before_action :set_circular, only: [ :show, :update, :destroy ]
 
       def index
         scope = current_organization.circulars
@@ -15,6 +15,10 @@ module Api
           circulars: circulars.map { |c| circular_summary(c) },
           pagination: pagination
         }
+      end
+
+      def show
+        render json: circular_detail(@circular)
       end
 
       def create

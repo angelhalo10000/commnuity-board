@@ -11,7 +11,7 @@ Rails.application.routes.draw do
     namespace :admin do
       resource :session, only: [ :show, :create, :destroy ]
       resources :notices
-      resources :circulars, only: [ :index, :create, :update, :destroy ]
+      resources :circulars, only: [ :index, :show, :create, :update, :destroy ]
       resource :settings, only: [ :show ] do
         patch :member_password, on: :collection
         patch :leader_password, on: :collection
