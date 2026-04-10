@@ -105,6 +105,7 @@ export default function AdminNoticesPage() {
                 <td><StatusBadge status={n.status} /></td>
                 <td>{formatDate(n.scheduled_at ?? n.published_at)}</td>
                 <td style={{ display: 'flex', gap: 8 }}>
+                  <Link to={`/admin/notices/${n.id}`} className="btn btn-secondary btn-sm">詳細</Link>
                   <Link to={`/admin/notices/${n.id}/edit`} className="btn btn-secondary btn-sm">編集</Link>
                   <button onClick={() => handleDelete(n.id)} className="btn btn-danger btn-sm">削除</button>
                 </td>

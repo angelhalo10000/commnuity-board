@@ -16,6 +16,7 @@ import AdminNoticesPage from './pages/admin/NoticesPage'
 import NoticeFormPage from './pages/admin/NoticeFormPage'
 import AdminCircularsPage from './pages/admin/CircularsPage'
 import CircularFormPage from './pages/admin/CircularFormPage'
+import AdminNoticeDetailPage from './pages/admin/NoticeDetailPage'
 import AdminCircularDetailPage from './pages/admin/CircularDetailPage'
 import SettingsPage from './pages/admin/SettingsPage'
 
@@ -51,6 +52,7 @@ export default function App() {
           <Route index element={<Navigate to="/admin/notices" replace />} />
           <Route path="notices" element={<AdminNoticesPage />} />
           <Route path="notices/new" element={<NoticeFormPage />} />
+          <Route path="notices/:id" element={<AdminNoticeDetailPage />} />
           <Route path="notices/:id/edit" element={<NoticeFormPage />} />
           <Route path="circulars" element={<AdminCircularsPage />} />
           <Route path="circulars/new" element={<CircularFormPage />} />
