@@ -16,14 +16,22 @@ export default function AdminCircularsPage() {
   const [pagination, setPagination] = useState<Pagination>({ current_page: 1, total_pages: 1, total_count: 0 })
   const [keyword, setKeyword] = useState('')
   const [status, setStatus] = useState('')
+  const [year, setYear] = useState('')
+  const [month, setMonth] = useState('')
   const [page, setPage] = useState(1)
 
   function load() {
-    adminApi.getCirculars({ keyword: keyword || undefined, status: status || undefined, page })
+    adminApi.getCirculars({
+      keyword: keyword || undefined,
+      status: status || undefined,
+      year: year ? Number(year) : undefined,
+      month: month ? Number(month) : undefined,
+      page,
+    })
       .then(r => { setCirculars(r.data.circulars); setPagination(r.data.pagination) })
   }
 
-  useEffect(load, [keyword, status, page])
+  useEffect(load, [keyword, status, year, month, page])
 
   async function handleDelete(id: string) {
     if (!confirm('削除しますか？')) return
@@ -43,6 +51,19 @@ export default function AdminCircularsPage() {
           <div className="form-group">
             <label className="form-label">キーワード</label>
             <input className="form-control" value={keyword} onChange={e => setKeyword(e.target.value)} placeholder="タイトルを検索" />
+          </div>
+          <div className="form-group" style={{ maxWidth: 100 }}>
+            <label className="form-label">年</label>
+            <input className="form-control" type="number" value={year} onChange={e => setYear(e.target.value)} placeholder="例: 2026" min="2000" max="2099" />
+          </div>
+          <div className="form-group" style={{ maxWidth: 80 }}>
+            <label className="form-label">月</label>
+            <select className="form-control" value={month} onChange={e => setMonth(e.target.value)}>
+              <option value="">すべて</option>
+              {Array.from({ length: 12 }, (_, i) => i + 1).map(m => (
+                <option key={m} value={m}>{m}月</option>
+              ))}
+            </select>
           </div>
           <div className="form-group" style={{ maxWidth: 140 }}>
             <label className="form-label">ステータス</label>
