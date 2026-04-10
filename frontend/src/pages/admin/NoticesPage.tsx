@@ -16,6 +16,7 @@ export default function AdminNoticesPage() {
   const [pagination, setPagination] = useState<Pagination>({ current_page: 1, total_pages: 1, total_count: 0 })
   const [keyword, setKeyword] = useState('')
   const [status, setStatus] = useState('')
+  const [targetType, setTargetType] = useState('')
   const [year, setYear] = useState('')
   const [month, setMonth] = useState('')
   const [page, setPage] = useState(1)
@@ -24,6 +25,7 @@ export default function AdminNoticesPage() {
     adminApi.getNotices({
       keyword: keyword || undefined,
       status: status || undefined,
+      target_type: targetType || undefined,
       year: year ? Number(year) : undefined,
       month: month ? Number(month) : undefined,
       page,
@@ -31,7 +33,7 @@ export default function AdminNoticesPage() {
       .then(r => { setNotices(r.data.notices); setPagination(r.data.pagination) })
   }
 
-  useEffect(load, [keyword, status, year, month, page])
+  useEffect(load, [keyword, status, targetType, year, month, page])
 
   async function handleDelete(id: string) {
     if (!confirm('削除しますか？')) return
@@ -51,6 +53,14 @@ export default function AdminNoticesPage() {
           <div className="form-group">
             <label className="form-label">キーワード</label>
             <input className="form-control" value={keyword} onChange={e => setKeyword(e.target.value)} placeholder="タイトル・本文" />
+          </div>
+          <div className="form-group" style={{ maxWidth: 120 }}>
+            <label className="form-label">対象</label>
+            <select className="form-control" value={targetType} onChange={e => setTargetType(e.target.value)}>
+              <option value="">すべて</option>
+              <option value="all">全員</option>
+              <option value="leaders">班長のみ</option>
+            </select>
           </div>
           <div className="form-group" style={{ maxWidth: 100 }}>
             <label className="form-label">年</label>

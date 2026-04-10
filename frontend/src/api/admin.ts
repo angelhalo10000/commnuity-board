@@ -10,7 +10,7 @@ export const adminApi = {
   logout: () => client.delete('/admin/session'),
 
   // Notices
-  getNotices: (params: { keyword?: string; year?: number; month?: number; status?: string; page?: number }) =>
+  getNotices: (params: { keyword?: string; year?: number; month?: number; status?: string; target_type?: string; page?: number }) =>
     client.get<{ notices: AdminNoticeSummary[]; pagination: Pagination }>('/admin/notices', { params }),
 
   getNotice: (id: string) =>
@@ -26,7 +26,7 @@ export const adminApi = {
     client.delete(`/admin/notices/${id}`),
 
   // Circulars
-  getCirculars: (params: { keyword?: string; year?: number; month?: number; status?: string; page?: number }) =>
+  getCirculars: (params: { keyword?: string; year?: number; month?: number; status?: string; target_type?: string; page?: number }) =>
     client.get<{ circulars: AdminCircularSummary[]; pagination: Pagination }>('/admin/circulars', { params }),
 
   getCircular: (id: string) =>

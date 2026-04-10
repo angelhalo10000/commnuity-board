@@ -96,6 +96,7 @@ module Api
           kw = "%#{params[:keyword]}%"
           scope = scope.where("title ILIKE ? OR body ILIKE ?", kw, kw)
         end
+        scope = scope.where(target_type: params[:target_type]) if params[:target_type].present?
         scope = scope.where("EXTRACT(YEAR FROM created_at AT TIME ZONE 'UTC' AT TIME ZONE 'Asia/Tokyo') = ?", params[:year]) if params[:year].present?
         scope = scope.where("EXTRACT(MONTH FROM created_at AT TIME ZONE 'UTC' AT TIME ZONE 'Asia/Tokyo') = ?", params[:month]) if params[:month].present?
         scope
