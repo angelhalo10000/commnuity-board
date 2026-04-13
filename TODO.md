@@ -21,3 +21,12 @@
 - [x] 配信対象の選択肢：「全員」「班長のみ」の2択に確定
   - 「班指定」は廃止
   - 班長→班員の連絡はMVPではLINEに任せる
+
+## Cloudflare R2対応
+
+- [ ] Cloudflareアカウントでバケット作成・APIトークン発行
+- [ ] `aws-sdk-s3` gemをGemfileに追加
+- [ ] `config/storage.yml` にR2設定を追加
+- [ ] `config/environments/production.rb` でActive StorageをR2に切り替え
+- [ ] Railsのcredentialsにアクセスキーを保存
+- [ ] 動作確認（ファイルアップロード・表示）
