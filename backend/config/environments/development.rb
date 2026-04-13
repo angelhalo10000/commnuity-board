@@ -27,7 +27,9 @@ Rails.application.configure do
   config.cache_store = :memory_store
 
   # Store uploaded files on Cloudflare R2 (see config/storage.yml for options).
-  config.active_storage.service = :cloudflare_r2
+  
+  config.active_storage.service = :local
+  # config.active_storage.service = :cloudflare_r2
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
