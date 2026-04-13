@@ -13,7 +13,6 @@ services:
   web:
     build:
       context: ./backend
-      target: production
     command: bash -c "bundle exec rails db:migrate && bundle exec puma -C config/puma.rb"
     environment:
       DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
@@ -27,7 +26,6 @@ services:
   worker:
     build:
       context: ./backend
-      target: production
     command: bundle exec rails solid_queue:start
     environment:
       DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
