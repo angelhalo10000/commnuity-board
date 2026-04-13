@@ -22,7 +22,7 @@
 | バックエンド | Ruby on Rails 8.1 (APIモード) |
 | データベース | PostgreSQL 16 |
 | ファイルストレージ | Active Storage (Cloudflare R2対応) |
-| インフラ | Docker / Kamal |
+| インフラ | Docker / Docker Compose / Nginx |
 
 ## クイックスタート
 
@@ -103,8 +103,34 @@ Swagger UIで確認できます: http://localhost:3000/swagger
 
 ## デプロイ
 
-本番環境へのデプロイにはKamalを使用します。
+Docker Composeで本番環境にデプロイします。
 
 ```bash
-kamal deploy
+# リポジトリをクローン
+git clone git@github.com:angelhalo10000/commnuity-board.git
+cd commnuity-board
+
+# 環境変数を設定
+cp .env.example .env
+# .envを編集（POSTGRES_PASSWORD, SECRET_KEY_BASE, RAILS_MASTER_KEY等）
+
+# ビルド＆起動
+docker-compose -f compose.prod.yml up -d --build
+```
+
+### 必要な環境変数
+
+| 変数名 | 説明 |
+|------|------|
+| `POSTGRES_USER` | DBユーザー名 |
+| `POSTGRES_PASSWORD` | DBパスワード |
+| `POSTGRES_DB` | DB名 |
+| `RAILS_ENV` | `production` |
+| `SECRET_KEY_BASE` | Railsシークレットキー |
+| `RAILS_MASTER_KEY` | `backend/config/master.key` の内容 |
+
+### SECRET_KEY_BASEの生成
+
+```bash
+docker run --rm ruby:3.4 ruby -e "require 'securerandom'; puts SecureRandom.hex(64)"
 ```
