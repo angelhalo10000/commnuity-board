@@ -110,34 +110,65 @@ Swagger UIで確認できます: http://localhost:3000/swagger
 
 ## デプロイ
 
-Docker Composeで本番環境にデプロイします。
+`main` ブランチへのpushで GitHub Actions が自動実行されます。
+
+1. Docker イメージをビルドして GitHub Container Registry (ghcr.io) にpush
+2. SSH で本番サーバーに接続し、`docker compose pull` → `docker compose up -d`
+
+手動デプロイは不要です。
+
+### 初回サーバーセットアップ
 
 ```bash
-# リポジトリをクローン
-git clone git@github.com:angelhalo10000/commnuity-board.git
-cd commnuity-board
+# サーバー上で実施
+git clone git@github.com:angelhalo10000/commnuity-board.git /opt/community-board
+cd /opt/community-board
 
 # 環境変数を設定
 cp .env.example .env
-# .envを編集（POSTGRES_PASSWORD, SECRET_KEY_BASE, RAILS_MASTER_KEY等）
+# .envを編集（下記「必要な環境変数」参照）
 
-# ビルド＆起動
-docker-compose -f compose.prod.yml up -d --build
+# 起動
+docker compose -f compose.prod.yml up -d
 ```
 
-### 必要な環境変数
+### 必要な環境変数（本番）
 
 | 変数名 | 説明 |
 |------|------|
 | `POSTGRES_USER` | DBユーザー名 |
 | `POSTGRES_PASSWORD` | DBパスワード |
 | `POSTGRES_DB` | DB名 |
-| `RAILS_ENV` | `production` |
+| `DATABASE_URL` | DB接続URL（上記から自動構築） |
 | `SECRET_KEY_BASE` | Railsシークレットキー |
-| `RAILS_MASTER_KEY` | `backend/config/master.key` の内容 |
+| `RAILS_MASTER_KEY` | `backend/config/master.key` の内容（Cloudflare R2の認証情報を含む） |
+
+### GitHub Actions に必要なシークレット
+
+| シークレット名 | 説明 |
+|------|------|
+| `DEPLOY_SSH_KEY` | 本番サーバーへのSSH秘密鍵 |
 
 ### SECRET_KEY_BASEの生成
 
 ```bash
 docker run --rm ruby:3.4 ruby -e "require 'securerandom'; puts SecureRandom.hex(64)"
+```
+
+### Cloudflare R2（ファイルストレージ）
+
+本番環境のファイルアップロードはCloudflare R2を使用します。認証情報はRails credentialsで管理しており、`RAILS_MASTER_KEY` で復号されます。
+
+```bash
+# credentialsの編集
+docker compose exec web bin/rails credentials:edit
+```
+
+設定するキー:
+```yaml
+cloudflare_r2_production:
+  access_key_id: ...
+  secret_access_key: ...
+  endpoint: https://<account_id>.r2.cloudflarestorage.com
+  bucket: ...
 ```
