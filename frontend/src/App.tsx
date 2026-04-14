@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { useAuth } from './contexts/AuthContext'
 
@@ -32,9 +32,18 @@ function RequireAdmin({ children }: { children: React.ReactElement }) {
   return isAdmin ? children : <Navigate to="/admin/login" replace />
 }
 
+function TitleUpdater() {
+  const { orgName, viewerRole, isAdmin } = useAuth()
+  useEffect(() => {
+    document.title = (viewerRole || isAdmin) && orgName ? orgName : '自治会サイト'
+  }, [orgName, viewerRole, isAdmin])
+  return null
+}
+
 export default function App() {
   return (
     <BrowserRouter>
+      <TitleUpdater />
       <Routes>
         {/* 公開側 */}
         <Route path="/enter" element={<EnterPage />} />
