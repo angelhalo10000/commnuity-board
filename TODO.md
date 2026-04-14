@@ -22,11 +22,33 @@
   - 「班指定」は廃止
   - 班長→班員の連絡はMVPではLINEに任せる
 
-## Cloudflare R2対応
+## 本番サーバー改善
 
-- [ ] Cloudflareアカウントでバケット作成・APIトークン発行
-- [ ] `aws-sdk-s3` gemをGemfileに追加
-- [ ] `config/storage.yml` にR2設定を追加
-- [ ] `config/environments/production.rb` でActive StorageをR2に切り替え
-- [ ] Railsのcredentialsにアクセスキーを保存
-- [ ] 動作確認（ファイルアップロード・表示）
+- [x] e2-micro → e2-small へのアップグレード（IPが34.57.254.23に変更）
+- [x] 静的IPの固定
+- [x] IPアドレス変更後のLet's Encrypt証明書再取得（34.57.254.23.nip.io）
+- [ ] noticesクエリの複合インデックス追加 `(organization_id, status, target_type, published_at)`
+- [ ] 検討: e2-microはDockerオーバーヘッドで運用に耐えなかった。ネイティブ構成（Rails/PostgreSQL直接インストール）にすればe2-microでも運用可能か？
+- [ ] 検討: デプロイ方式をghcr.ioプル方式→本番サーバーでビルド方式に変更
+  - 現在: GitHub Actions でビルド → ghcr.io にpush → 本番でpull
+  - 変更後: GitHub Actions で git pull → docker compose up --build
+  - メリット: ghcr.io不要、構成がシンプル
+  - デメリット: ビルド時にサーバーのCPU/メモリを消費する（e2-smallで許容できるか要確認）
+- [x] GCP予算アラート設定（$20超えで通知）
+- [ ] 定期確認: e2-smallの課金額をGCPコンソールで月次チェック
+  - 目安: e2-small (asia-northeast1) ≒ $14/月 + 静的IP (使用中は無料) + ディスク + 通信量
+  - 確認先: GCP Console → お支払い → レポート
+
+## Cloudflare R2対応の改善
+
+- [ ] 検討: R2のクレデンシャルをRails credentialsから環境変数に移行
+  - `CLOUDFLARE_R2_ACCESS_KEY_ID`, `CLOUDFLARE_R2_SECRET_ACCESS_KEY` などを `.env` + GitHub Secretsで管理
+
+## Cloudflare R2対応（解決済み）
+
+- [x] Cloudflareアカウントでバケット作成・APIトークン発行
+- [x] `aws-sdk-s3` gemをGemfileに追加
+- [x] `config/storage.yml` にR2設定を追加
+- [x] `config/environments/production.rb` でActive StorageをR2に切り替え
+- [x] Railsのcredentialsにアクセスキーを保存
+- [x] 動作確認（ファイルアップロード・表示）
