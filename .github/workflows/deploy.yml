@@ -57,6 +57,15 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Copy nginx config to production
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: 34.60.200.64
+          username: angelhalo10000
+          key: ${{ secrets.DEPLOY_SSH_KEY }}
+          source: nginx/nginx.prod.conf
+          target: /opt/community-board/
+
       - name: Deploy to production
         uses: appleboy/ssh-action@v1
         with:
