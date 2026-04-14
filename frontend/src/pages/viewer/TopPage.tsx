@@ -3,12 +3,14 @@ import { Link } from 'react-router-dom'
 import { viewerApi } from '../../api/viewer'
 import type { NoticeSummary, CircularSummary } from '../../types'
 import { NewBadge, TargetBadge } from '../../components/StatusBadge'
+import { useAuth } from '../../contexts/AuthContext'
 
 function formatDate(iso: string) {
   return new Date(iso).toLocaleDateString('ja-JP', { year: 'numeric', month: 'long', day: 'numeric' })
 }
 
 export default function TopPage() {
+  const { orgName } = useAuth()
   const [notices, setNotices] = useState<NoticeSummary[]>([])
   const [circulars, setCirculars] = useState<CircularSummary[]>([])
 
@@ -20,7 +22,7 @@ export default function TopPage() {
   return (
     <>
       <div style={{ background: 'var(--primary)', color: '#fff', padding: '28px 20px', textAlign: 'center' }}>
-        <h1 style={{ fontSize: 22, fontWeight: 700, marginBottom: 4 }}>自治会</h1>
+        <h1 style={{ fontSize: 22, fontWeight: 700, marginBottom: 4 }}>{orgName}</h1>
         <p style={{ fontSize: 14, opacity: 0.85 }}>お知らせや回覧板をオンラインで確認できます</p>
       </div>
       <div className="container">
