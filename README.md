@@ -97,6 +97,13 @@ npx tsc --noEmit
 npm run lint
 ```
 
+### 環境変数 `BACKEND_URL` について
+
+`BACKEND_URL` は**開発環境専用**の変数です。Vite dev server のプロキシ先（`/api`, `/rails`）を指定するために使用します。
+
+- 開発時: `compose.yml` が `http://web:3000` を渡し、Vite がバックエンドにリクエストを転送
+- 本番時: 静的ファイルをnginxが配信し、プロキシは nginx の `proxy_pass` が担当するため不使用
+
 ## API仕様
 
 Swagger UIで確認できます: http://localhost:3000/swagger
