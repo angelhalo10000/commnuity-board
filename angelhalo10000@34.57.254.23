@@ -1,6 +1,6 @@
 server {
     listen 80;
-    server_name 34.60.200.64.nip.io;
+    server_name 34.57.254.23.nip.io;
 
     # Let's Encrypt 証明書取得用
     location /.well-known/acme-challenge/ {
@@ -15,10 +15,10 @@ server {
 
 server {
     listen 443 ssl;
-    server_name 34.60.200.64.nip.io;
+    server_name 34.57.254.23.nip.io;
 
-    ssl_certificate /etc/letsencrypt/live/34.60.200.64.nip.io/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/34.60.200.64.nip.io/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/34.57.254.23.nip.io/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/34.57.254.23.nip.io/privkey.pem;
 
     root /usr/share/nginx/html;
     index index.html;

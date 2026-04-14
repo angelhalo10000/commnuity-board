@@ -60,7 +60,7 @@ jobs:
       - name: Copy nginx config to production
         uses: appleboy/scp-action@v0.1.7
         with:
-          host: 34.60.200.64
+          host: 34.57.254.23
           username: angelhalo10000
           key: ${{ secrets.DEPLOY_SSH_KEY }}
           source: nginx/nginx.prod.conf
@@ -69,7 +69,7 @@ jobs:
       - name: Deploy to production
         uses: appleboy/ssh-action@v1
         with:
-          host: 34.60.200.64
+          host: 34.57.254.23
           username: angelhalo10000
           key: ${{ secrets.DEPLOY_SSH_KEY }}
           script: |
