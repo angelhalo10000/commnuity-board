@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import type { FormEvent, ChangeEvent } from 'react'
 import { useNavigate, useParams, Link } from 'react-router-dom'
-import DOMPurify from 'dompurify'
 import { adminApi } from '../../api/admin'
 import type { AdminNoticeDetail, Attachment } from '../../types'
+import RichEditor from '../../components/RichEditor'
 
 export default function NoticeFormPage() {
   const { id } = useParams<{ id: string }>()
@@ -18,7 +18,7 @@ export default function NoticeFormPage() {
   const [files, setFiles] = useState<File[]>([])
   const [existingAttachments, setExistingAttachments] = useState<Attachment[]>([])
   const [removeIds, setRemoveIds] = useState<string[]>([])
-  const [bodyTab, setBodyTab] = useState<'edit' | 'preview'>('edit')
+  const [editorMode, setEditorMode] = useState<'rich' | 'text'>('rich')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -86,14 +86,15 @@ export default function NoticeFormPage() {
             <input className="form-control" value={title} onChange={e => setTitle(e.target.value)} required />
           </div>
           <div className="form-group">
-            <label className="form-label">本文 <span style={{ fontWeight: 400, fontSize: 12, color: 'var(--text-muted)' }}>HTMLが使えます</span></label>
-            <div style={{ display: 'flex', gap: 8, marginBottom: 6 }}>
-              <button type="button" className={`btn btn-sm ${bodyTab === 'edit' ? 'btn-primary' : 'btn-secondary'}`} onClick={() => setBodyTab('edit')}>編集</button>
-              <button type="button" className={`btn btn-sm ${bodyTab === 'preview' ? 'btn-primary' : 'btn-secondary'}`} onClick={() => setBodyTab('preview')}>プレビュー</button>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+              <label className="form-label" style={{ margin: 0 }}>本文</label>
+              <button type="button" className="btn btn-secondary btn-sm" onClick={() => setEditorMode(m => m === 'rich' ? 'text' : 'rich')}>
+                {editorMode === 'rich' ? 'HTMLで編集' : 'リッチエディタに戻る'}
+              </button>
             </div>
-            {bodyTab === 'edit'
-              ? <textarea className="form-control" value={body} onChange={e => setBody(e.target.value)} rows={8} style={{ fontFamily: 'monospace', fontSize: 13 }} />
-              : <div className="notice-body" style={{ minHeight: 120, padding: '8px 12px', border: '1px solid var(--border)', borderRadius: 'var(--radius)', background: 'var(--white)' }} dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(body ?? '') }} />
+            {editorMode === 'rich'
+              ? <RichEditor value={body} onChange={setBody} />
+              : <textarea className="form-control" value={body} onChange={e => setBody(e.target.value)} rows={10} style={{ fontFamily: 'monospace', fontSize: 13 }} />
             }
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
