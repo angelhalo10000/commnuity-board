@@ -93,11 +93,11 @@ export default function AdminCircularsPage() {
       <div className="card" style={{ padding: 0, overflow: 'auto' }}>
         <table className="table" style={{ minWidth: 480 }}>
           <thead>
-            <tr><th>タイトル</th><th>配信日</th><th></th></tr>
+            <tr><th>タイトル</th><th>配信日</th><th>ファイル数</th><th></th></tr>
           </thead>
           <tbody>
             {circulars.length === 0 && (
-              <tr><td colSpan={3} style={{ textAlign: 'center', color: 'var(--text-muted)' }}>回覧板はありません</td></tr>
+              <tr><td colSpan={4} style={{ textAlign: 'center', color: 'var(--text-muted)' }}>回覧板はありません</td></tr>
             )}
             {circulars.map(c => (
               <tr key={c.id}>
@@ -109,6 +109,7 @@ export default function AdminCircularsPage() {
                   </div>
                 </td>
                 <td style={{ whiteSpace: 'nowrap' }}>{formatDate(c.scheduled_at ?? c.published_at)}</td>
+                <td style={{ textAlign: 'center' }}>{c.files_count}</td>
                 <td>
                   <div style={{ display: 'flex', gap: 4 }}>
                     <Link to={`/admin/circulars/${c.id}`} className="btn btn-secondary btn-sm icon-btn" title="詳細"><IconEye /></Link>
