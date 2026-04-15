@@ -27,7 +27,7 @@
 - [x] e2-micro → e2-small へのアップグレード（IPが34.57.254.23に変更）
 - [x] 静的IPの固定
 - [x] IPアドレス変更後のLet's Encrypt証明書再取得（34.57.254.23.nip.io）
-- [ ] noticesクエリの複合インデックス追加 `(organization_id, status, target_type, published_at)`
+- [x] notices・circularsクエリの複合インデックス追加 `(organization_id, status, target_type, published_at)`
 - [ ] 検討: e2-microはDockerオーバーヘッドで運用に耐えなかった。ネイティブ構成（Rails/PostgreSQL直接インストール）にすればe2-microでも運用可能か？
 - [ ] 検討: デプロイ方式をghcr.ioプル方式→本番サーバーでビルド方式に変更
   - 現在: GitHub Actions でビルド → ghcr.io にpush → 本番でpull
