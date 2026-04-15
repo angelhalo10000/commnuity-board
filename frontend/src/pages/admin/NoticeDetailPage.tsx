@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
+import DOMPurify from 'dompurify'
 import { adminApi } from '../../api/admin'
 import type { AdminNoticeDetail } from '../../types'
 import { StatusBadge, TargetBadge } from '../../components/StatusBadge'
@@ -53,7 +54,7 @@ export default function AdminNoticeDetailPage() {
         {notice.body && (
           <div style={{ marginBottom: 20 }}>
             <div style={{ fontSize: 12, color: 'var(--text-muted)', marginBottom: 8 }}>本文</div>
-            <div style={{ fontSize: 14, lineHeight: 1.7, whiteSpace: 'pre-wrap' }}>{notice.body}</div>
+            <div className="notice-body" style={{ fontSize: 14 }} dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(notice.body ?? '') }} />
           </div>
         )}
 

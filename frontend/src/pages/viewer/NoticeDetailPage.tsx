@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
+import DOMPurify from 'dompurify'
 import { viewerApi } from '../../api/viewer'
 import type { NoticeDetail } from '../../types'
 import { NewBadge, TargetBadge } from '../../components/StatusBadge'
@@ -45,7 +46,10 @@ export default function NoticeDetailPage() {
           </p>
         </div>
         <hr className="divider" />
-        <div style={{ whiteSpace: 'pre-wrap', lineHeight: 1.8 }}>{notice.body}</div>
+        <div
+          className="notice-body"
+          dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(notice.body ?? '') }}
+        />
         {notice.attachments.length > 0 && (
           <>
             <hr className="divider" />
