@@ -30,34 +30,20 @@ RSpec.describe "Api::Admin::Settings", type: :request do
     end
 
     describe "PATCH /api/admin/settings/member_password" do
-      it "正しい現在パスワードで204を返す" do
+      it "現在パスワード不要で204を返す" do
         patch member_password_api_admin_settings_path,
-          params: { current_password: "member_pass", password: "new_member_pass" },
+          params: { password: "new_member_pass" },
           as: :json
         expect(response).to have_http_status(:no_content)
-      end
-
-      it "誤った現在パスワードで422を返す" do
-        patch member_password_api_admin_settings_path,
-          params: { current_password: "wrong", password: "new_pass" },
-          as: :json
-        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
 
     describe "PATCH /api/admin/settings/leader_password" do
-      it "正しい現在パスワードで204を返す" do
+      it "現在パスワード不要で204を返す" do
         patch leader_password_api_admin_settings_path,
-          params: { current_password: "leader_pass", password: "new_leader_pass" },
+          params: { password: "new_leader_pass" },
           as: :json
         expect(response).to have_http_status(:no_content)
-      end
-
-      it "誤った現在パスワードで422を返す" do
-        patch leader_password_api_admin_settings_path,
-          params: { current_password: "wrong", password: "new_pass" },
-          as: :json
-        expect(response).to have_http_status(:unprocessable_entity)
       end
     end
 

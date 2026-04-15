@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_04_10_000839) do
+ActiveRecord::Schema[8.1].define(version: 2026_04_15_000000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -59,6 +59,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_10_000839) do
     t.string "target_type", default: "all", null: false
     t.string "title", null: false
     t.datetime "updated_at", null: false
+    t.index ["organization_id", "status", "target_type", "published_at"], name: "index_circulars_on_org_status_target_published"
     t.index ["organization_id", "status"], name: "index_circulars_on_organization_id_and_status"
     t.index ["organization_id"], name: "index_circulars_on_organization_id"
     t.index ["published_at"], name: "index_circulars_on_published_at"
@@ -73,6 +74,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_04_10_000839) do
     t.string "target_type", default: "all", null: false
     t.string "title", null: false
     t.datetime "updated_at", null: false
+    t.index ["organization_id", "status", "target_type", "published_at"], name: "index_notices_on_org_status_target_published"
     t.index ["organization_id", "status"], name: "index_notices_on_organization_id_and_status"
     t.index ["organization_id"], name: "index_notices_on_organization_id"
     t.index ["published_at"], name: "index_notices_on_published_at"
