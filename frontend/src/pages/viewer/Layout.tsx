@@ -24,6 +24,25 @@ export default function ViewerLayout() {
         </nav>
       </header>
       <Outlet />
+      <div className="viewer-bottom-nav-spacer" />
+      <nav className="viewer-bottom-nav">
+        <NavLink to="/" end className={({ isActive }) => isActive ? 'active' : ''}>
+          <span className="nav-icon">🏠</span>
+          トップ
+        </NavLink>
+        <NavLink to="/notices" className={({ isActive }) => isActive ? 'active' : ''}>
+          <span className="nav-icon">📢</span>
+          お知らせ
+        </NavLink>
+        <NavLink to="/circulars" className={({ isActive }) => isActive ? 'active' : ''}>
+          <span className="nav-icon">📋</span>
+          回覧板
+        </NavLink>
+        <button onClick={handleLogout}>
+          <span className="nav-icon">🚪</span>
+          ログアウト
+        </button>
+      </nav>
     </>
   )
 }
