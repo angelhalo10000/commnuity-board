@@ -5,6 +5,7 @@ import { adminApi } from '../../api/admin'
 import type { AdminCircularSummary, Pagination } from '../../types'
 import { StatusBadge, TargetBadge } from '../../components/StatusBadge'
 import PaginationComp from '../../components/Pagination'
+import { IconEye, IconPencil, IconTrash } from '../../components/Icons'
 
 function formatDate(iso: string | null) {
   if (!iso) return '—'
@@ -109,10 +110,10 @@ export default function AdminCircularsPage() {
                 </td>
                 <td style={{ whiteSpace: 'nowrap' }}>{formatDate(c.scheduled_at ?? c.published_at)}</td>
                 <td>
-                  <div style={{ display: 'flex', gap: 8 }}>
-                    <Link to={`/admin/circulars/${c.id}`} className="btn btn-secondary btn-sm">詳細</Link>
-                    <Link to={`/admin/circulars/${c.id}/edit`} className="btn btn-secondary btn-sm">編集</Link>
-                    <button onClick={() => handleDelete(c.id)} className="btn btn-danger btn-sm">削除</button>
+                  <div style={{ display: 'flex', gap: 4 }}>
+                    <Link to={`/admin/circulars/${c.id}`} className="btn btn-secondary btn-sm icon-btn" title="詳細"><IconEye /></Link>
+                    <Link to={`/admin/circulars/${c.id}/edit`} className="btn btn-secondary btn-sm icon-btn" title="編集"><IconPencil /></Link>
+                    <button onClick={() => handleDelete(c.id)} className="btn btn-danger btn-sm icon-btn" title="削除"><IconTrash /></button>
                   </div>
                 </td>
               </tr>

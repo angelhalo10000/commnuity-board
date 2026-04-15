@@ -138,6 +138,24 @@ a:hover { text-decoration: underline; }
 .btn-danger { background: var(--danger); color: #fff; }
 .btn-danger:hover { background: #b91c1c; color: #fff; }
 .btn-sm { padding: 6px 12px; font-size: 13px; }
+.icon-btn { padding: 6px 8px; display: inline-flex; align-items: center; justify-content: center; position: relative; }
+.icon-btn::after {
+  content: attr(title);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.75);
+  color: #fff;
+  font-size: 11px;
+  white-space: nowrap;
+  padding: 3px 7px;
+  border-radius: 4px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+.icon-btn:hover::after { opacity: 1; }
 .btn-lg { padding: 12px 24px; font-size: 16px; }
 .btn-full { width: 100%; }
 .btn:disabled { opacity: 0.6; cursor: not-allowed; }
