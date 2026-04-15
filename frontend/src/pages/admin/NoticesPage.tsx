@@ -89,25 +89,31 @@ export default function AdminNoticesPage() {
         </div>
       </form>
 
-      <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
-        <table className="table">
+      <div className="card" style={{ padding: 0, overflow: 'auto' }}>
+        <table className="table" style={{ minWidth: 480 }}>
           <thead>
-            <tr><th>タイトル</th><th>対象</th><th>ステータス</th><th>配信日/配信予定日</th><th></th></tr>
+            <tr><th>タイトル</th><th>配信日</th><th></th></tr>
           </thead>
           <tbody>
             {notices.length === 0 && (
-              <tr><td colSpan={5} style={{ textAlign: 'center', color: 'var(--text-muted)' }}>お知らせはありません</td></tr>
+              <tr><td colSpan={3} style={{ textAlign: 'center', color: 'var(--text-muted)' }}>お知らせはありません</td></tr>
             )}
             {notices.map(n => (
               <tr key={n.id}>
-                <td style={{ fontWeight: 500 }}>{n.title}</td>
-                <td><TargetBadge targetType={n.target_type} /></td>
-                <td><StatusBadge status={n.status} /></td>
-                <td>{formatDate(n.scheduled_at ?? n.published_at)}</td>
-                <td style={{ display: 'flex', gap: 8 }}>
-                  <Link to={`/admin/notices/${n.id}`} className="btn btn-secondary btn-sm">詳細</Link>
-                  <Link to={`/admin/notices/${n.id}/edit`} className="btn btn-secondary btn-sm">編集</Link>
-                  <button onClick={() => handleDelete(n.id)} className="btn btn-danger btn-sm">削除</button>
+                <td>
+                  <div style={{ fontWeight: 500, marginBottom: 4 }}>{n.title}</div>
+                  <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
+                    <StatusBadge status={n.status} />
+                    <TargetBadge targetType={n.target_type} />
+                  </div>
+                </td>
+                <td style={{ whiteSpace: 'nowrap' }}>{formatDate(n.scheduled_at ?? n.published_at)}</td>
+                <td>
+                  <div style={{ display: 'flex', gap: 8 }}>
+                    <Link to={`/admin/notices/${n.id}`} className="btn btn-secondary btn-sm">詳細</Link>
+                    <Link to={`/admin/notices/${n.id}/edit`} className="btn btn-secondary btn-sm">編集</Link>
+                    <button onClick={() => handleDelete(n.id)} className="btn btn-danger btn-sm">削除</button>
+                  </div>
                 </td>
               </tr>
             ))}

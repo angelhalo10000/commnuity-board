@@ -89,26 +89,31 @@ export default function AdminCircularsPage() {
         </div>
       </form>
 
-      <div className="card" style={{ padding: 0, overflow: 'hidden' }}>
-        <table className="table">
+      <div className="card" style={{ padding: 0, overflow: 'auto' }}>
+        <table className="table" style={{ minWidth: 480 }}>
           <thead>
-            <tr><th>タイトル</th><th>対象</th><th>ステータス</th><th>ファイル数</th><th>配信日/配信予定日</th><th></th></tr>
+            <tr><th>タイトル</th><th>配信日</th><th></th></tr>
           </thead>
           <tbody>
             {circulars.length === 0 && (
-              <tr><td colSpan={6} style={{ textAlign: 'center', color: 'var(--text-muted)' }}>回覧板はありません</td></tr>
+              <tr><td colSpan={3} style={{ textAlign: 'center', color: 'var(--text-muted)' }}>回覧板はありません</td></tr>
             )}
             {circulars.map(c => (
               <tr key={c.id}>
-                <td style={{ fontWeight: 500 }}>📋 {c.title}</td>
-                <td><TargetBadge targetType={c.target_type} /></td>
-                <td><StatusBadge status={c.status} /></td>
-                <td style={{ textAlign: 'center' }}>{c.files_count}</td>
-                <td>{formatDate(c.scheduled_at ?? c.published_at)}</td>
-                <td style={{ display: 'flex', gap: 8 }}>
-                  <Link to={`/admin/circulars/${c.id}`} className="btn btn-secondary btn-sm">詳細</Link>
-                  <Link to={`/admin/circulars/${c.id}/edit`} className="btn btn-secondary btn-sm">編集</Link>
-                  <button onClick={() => handleDelete(c.id)} className="btn btn-danger btn-sm">削除</button>
+                <td>
+                  <div style={{ fontWeight: 500, marginBottom: 4 }}>📋 {c.title}</div>
+                  <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap' }}>
+                    <StatusBadge status={c.status} />
+                    <TargetBadge targetType={c.target_type} />
+                  </div>
+                </td>
+                <td style={{ whiteSpace: 'nowrap' }}>{formatDate(c.scheduled_at ?? c.published_at)}</td>
+                <td>
+                  <div style={{ display: 'flex', gap: 8 }}>
+                    <Link to={`/admin/circulars/${c.id}`} className="btn btn-secondary btn-sm">詳細</Link>
+                    <Link to={`/admin/circulars/${c.id}/edit`} className="btn btn-secondary btn-sm">編集</Link>
+                    <button onClick={() => handleDelete(c.id)} className="btn btn-danger btn-sm">削除</button>
+                  </div>
                 </td>
               </tr>
             ))}
