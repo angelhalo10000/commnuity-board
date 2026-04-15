@@ -39,6 +39,12 @@
   - 目安: e2-small (asia-northeast1) ≒ $14/月 + 静的IP (使用中は無料) + ディスク + 通信量
   - 確認先: GCP Console → お支払い → レポート
 
+## UI改善（解決済み）
+
+- [x] お知らせ本文をTipTapリッチエディタ対応（太字・斜体・見出し・リスト・リンク挿入）
+  - HTMLテキスト編集との切り替え可能
+  - 閲覧画面はDOMPurifyでサニタイズしてHTMLレンダリング
+
 ## Cloudflare R2対応の改善
 
 - [ ] 検討: R2のクレデンシャルをRails credentialsから環境変数に移行
